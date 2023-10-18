@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Footer } from "./components/ui/footer";
-import { Header } from "./components/ui/header";
+import { Footer } from "./components/ui/footer/footer";
+import { Header } from "./components/ui/header/header";
 
 import "./App.css";
 
