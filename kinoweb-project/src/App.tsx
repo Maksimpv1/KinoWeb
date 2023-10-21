@@ -1,5 +1,11 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import { Films } from "./components/films/films";
+import { Help } from "./components/help/help";
+import { MainBlock } from "./components/mainblock/mainBlock";
+import { News } from "./components/news/news";
+import { Search } from "./components/search/search";
 import { Footer } from "./components/ui/footer/footer";
 import { Header } from "./components/ui/header/header";
 
@@ -7,10 +13,21 @@ import "./App.css";
 
 function App() {
   return (
-    <div>
-      <Header />
-      <Footer />
-    </div>
+      <Router>
+        <div>
+          <Header />
+          <div>
+            <Routes>
+              <Route path="/" element={<MainBlock/>}/>
+              <Route path="/News" element={<News/>}/>
+              <Route path="/Search" element={<Search/>}/>
+              <Route path="/Help" element={<Help/>}/>
+              <Route path="/Films" element={<Films/>}/>
+            </Routes>
+          </div>
+          <Footer />
+        </div>
+      </Router>
   );
 }
 

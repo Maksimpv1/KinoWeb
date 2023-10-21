@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 import imgBack from "./img/headerBack.jpg";
@@ -73,20 +74,34 @@ export const HeaderLoginClick = styled.button`
         transition: 0.3s ease-in-out;
     }
 `;
-export const HeaderSwitchTheme = styled.button`
-    width: 100px;
-    height: 40px;
-    color: #FFFFFF;
-    font-size: 18px;
-    background: none;
-    border: #FFFFFF 1px solid;
-    border-radius: 5px;
-    margin-right: 50px;
+export const HeaderTitleblock = styled.div`
+    display: block;
+    height: 100%;
+    max-width:600px;
+    margin: 0 auto;
+`;
+export const HeaderTitle = styled.h1`
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 350px;
+    color:#FFFFFF;
+    font-size:40px;
+    font-weight: 800;
+`;
+
+export const StyledNavLink = styled(NavLink)`
+    color:#FFFFFF;
+    font-size: 20px;
+    list-style-type: none;
+    cursor: pointer;
     transition: 0.3s ease-in-out;
+    text-decoration: none;
     &:hover{
+        color:#E7CA6F;
         transition: 0.3s ease-in-out;
     }
     &:active{
-        transition: 0.3s ease-in-out;
+        color:#685B32;
     }
 `;
+
