@@ -4,7 +4,7 @@ import styled from "styled-components";
 import imgBack from "./img/headerBack.jpg";
 
 export interface HeaderProps {
-    isScrolled?:string,
+    isScrolled?:boolean,
   }
 
 

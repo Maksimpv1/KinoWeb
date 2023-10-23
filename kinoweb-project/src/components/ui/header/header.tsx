@@ -3,6 +3,7 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@m
 
 import { ThemeContext } from "../../providers/themeProvider";
 
+import { BurgerMenu } from "./burger/burgerMenu";
 import Logo from "./img/mainlogo.png";
 import { headData } from "./headerData";
 import { HeaderContainer, HeaderLoginClick, HeaderMain, HeaderMainLeft, HeaderMainList, HeaderMainRight, HeaderShadow, HeaderTitle, HeaderTitleblock, MainLogo, StyledNavLink } from "./headerStyled";
@@ -22,7 +23,6 @@ export const Header = () => {
 
     useEffect(() => {
       const handleScroll = () => {
-        console.log(window.scrollY);
         setIsScrolled(scrollY > 0);
       };
 
@@ -39,6 +39,7 @@ export const Header = () => {
         <HeaderMain isScrolled={isScrolled}>
           <HeaderMainLeft>
             <HeaderMainList>
+              <BurgerMenu/>
               <MainLogo src={Logo}></MainLogo>              
             </HeaderMainList>
             {(headData.map((item)=>(
