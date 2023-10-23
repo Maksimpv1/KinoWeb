@@ -1,13 +1,19 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+
+import { ThemeContext } from '../providers/themeProvider';
 
 import Arrow from './img/arrow.png'
 import { AccordsTitle, AccordsTittle, MainContainer, MainWrapper, SpaceLine } from "./mainBlockStyles"
 import { QuestionData } from './mainQuestionData';
 
 export const MainQuestions = ()=>{
+
+    const themes = useContext(ThemeContext);
+    
     const [Expanded, setExpanded] = React.useState<number | false>(false);
 
     const handleChange =
@@ -15,7 +21,7 @@ export const MainQuestions = ()=>{
       setExpanded(isExpanded ? panel : false);
     };
     return(
-        <MainContainer>
+        <MainContainer colorBg = {themes.BACKGROUND_THEME}>
             <AccordsTitle>Common Questions</AccordsTitle>            
             <MainWrapper  Accords={true}>
             {QuestionData.map((item)=>(

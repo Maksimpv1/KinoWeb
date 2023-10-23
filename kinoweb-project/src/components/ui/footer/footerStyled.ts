@@ -1,8 +1,12 @@
 import styled from "styled-components";
+export interface ThemeProps {
+    colorText?:string,
+    colorBg?:string,
+  }
 
-export const FooterContainer = styled.div`
+export const FooterContainer = styled.div<ThemeProps>`
     width:100%;
-    background-color:#000000;
+    background-color:${(props)=> props.colorBg};
 `;
 
 export const FooterWrapper = styled.div`
@@ -11,8 +15,8 @@ export const FooterWrapper = styled.div`
     margin:0 auto;
 `;
 
-export const FooterDiscription = styled.p`
-    color:#CACACA;
+export const FooterDiscription = styled.p<ThemeProps>`
+    color:${(props)=> props.colorText};
     font-size:16px;
     text-align:center;
 `;
@@ -26,8 +30,8 @@ export const FooterDopInfoList = styled.ul`
     justify-content:space-between;
 `;
 
-export const FooterDopInfoValue = styled.li`
-    color:#F3F3F3;
+export const FooterDopInfoValue = styled.li<ThemeProps>`
+    color:${(props)=> props.colorText};
     text-align:center;
     font-size:18px;
     list-style-type:none;
@@ -47,9 +51,7 @@ export const FooterSocial = styled.ul`
     align-items:center;
     justify-content:space-between;
 `;
-export const SocialList = styled.li`
-    
-`;
+
 export const SocialIcons = styled.img`
     width: 30px;
     height: 30px;
@@ -59,4 +61,8 @@ export const SocialIcons = styled.img`
         scale: 1.1;
         transition: 0.3s ease-in-out;
     }
+`;
+
+export const SocialList = styled.li`
+    list-style-type:none;
 `;

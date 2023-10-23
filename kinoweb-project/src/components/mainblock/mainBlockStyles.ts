@@ -1,9 +1,11 @@
 import { AccordionSummary } from "@mui/material";
 import styled from "styled-components";
 
-export const MainContainer = styled.div`
+import { ThemeProps } from "../ui/footer/footerStyled";
+
+export const MainContainer = styled.div<ThemeProps>`
     width:100%;
-    background-color: #000000;
+    background-color: ${(props)=> props.colorBg};
 `;
 export const MainWrapper = styled.div<{Accords?:boolean}>`
     max-width:1170px;
@@ -22,8 +24,8 @@ export const MainWrapper = styled.div<{Accords?:boolean}>`
         padding: ${({ Accords }) => Accords ? '30px 30px' : '30px 0'};
     }
 `;
-export const MainTitle = styled.h3`
-    color:#FFFFFF;
+export const MainTitle = styled.h3<ThemeProps>`
+    color:${(props)=> props.colorText};
     font-size: 30px;
     @media (max-width:1100px) {
         font-size:24px;
@@ -34,8 +36,8 @@ export const MainTitle = styled.h3`
     
 `;
 
-export const MainDiscription = styled.p`
-    color:#FFFFFF;
+export const MainDiscription = styled.p<ThemeProps>`
+    color:${(props)=> props.colorText};
     font-size:20px;
     @media (max-width:1100px) {
         font-size:18px;

@@ -8,21 +8,26 @@ export const headData: Array<IheaData> = [
     {
         id:1,
         title:'Main Page',
-        link:'/News',
+        link:'/',
     },
     {
         id:2,
         title:'News',
-        link:'/Search',
+        link:'/News',
     },
     {
         id:3,
         title:'Search',
-        link:'/Help',
+        link:'/Search',
     },
     {
         id:4,
         title:'Help',
-        link:'/Films',
+        link:'/Help',
     },
+    {
+        id:5,
+        title:'Films',
+        link:'/Films',
+    }
 ]

@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+
+import { ThemeContext } from "../../providers/themeProvider";
 
 import Logo from "./img/mainlogo.png";
 import { headData } from "./headerData";
@@ -9,14 +11,32 @@ import { HeaderContainer, HeaderLoginClick, HeaderMain, HeaderMainLeft, HeaderMa
 export const Header = () => {
   const [age, setAge] = React.useState('');
 
+  const themeSw = useContext(ThemeContext)!;
+
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
+    themeSw.contextFunc?.(event.target.value)
   };
+
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+    useEffect(() => {
+      const handleScroll = () => {
+        console.log(window.scrollY);
+        setIsScrolled(scrollY > 0);
+      };
+
+      window.addEventListener('scroll', handleScroll);
+
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
 
   return (
     <HeaderContainer>
       <HeaderShadow>
-        <HeaderMain>
+        <HeaderMain isScrolled={isScrolled}>
           <HeaderMainLeft>
             <HeaderMainList>
               <MainLogo src={Logo}></MainLogo>              

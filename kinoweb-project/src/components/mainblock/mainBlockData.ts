@@ -1,7 +1,7 @@
 import firstBlock from "./img/blcokthree.png"
 import secondtBlock from "./img/blockfirst.png"
 import threeBlock from "./img/blockfour.png"
-import fourBlock from "./img/blocksecond.jpg"
+import fourBlock from "./img/blocksecond.png"
 
 interface IMainBlockData {
     id:number,

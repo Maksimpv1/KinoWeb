@@ -3,6 +3,10 @@ import styled from "styled-components";
 
 import imgBack from "./img/headerBack.jpg";
 
+export interface HeaderProps {
+    isScrolled?:string,
+  }
+
 
 export const HeaderContainer = styled.div`
     width:100%;
@@ -18,12 +22,13 @@ export const HeaderShadow = styled.div`
     background:rgba(0,  0,0, 0.55);
 `;
 
-export const HeaderMain = styled.div`
+export const HeaderMain = styled.div<HeaderProps>`
     width: 100%;
     z-index: 1;
     padding: 5px;
-    background: none;
+    background: ${(props)=> props.isScrolled ? '#000000A9':'none'};
     position: fixed;
+    transition: 0.3s ease-in-out;
     display: flex;
 `;
 export const HeaderMainLeft = styled.ul`
@@ -31,6 +36,9 @@ export const HeaderMainLeft = styled.ul`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width:1500px) {
+        width: 60%;
+    }
 `;
 export const HeaderMainList = styled.li`
     color:#FFFFFF;
@@ -47,12 +55,27 @@ export const MainLogo = styled.img`
     margin-left: 150px;
     width: 250px;
     height: 80px;
+    @media (max-width:1500px) {
+        margin-left: 100px;
+        transition: 0.3s ease-in-out;
+    }
+    @media (max-width:1300px) {
+        margin-left: 30px;
+        transition: 0.3s ease-in-out;
+    }
+    @media (max-width:1100px) {
+        margin-left: 0px;
+        transition: 0.3s ease-in-out;
+    }
 `;
 export const HeaderMainRight = styled.ul`
     display: flex;
     width: 40%;
     align-items: center;
     justify-content: right;
+    @media (max-width:1500px) {
+        width: 30%;
+    }
 `;
 
 export const HeaderLoginClick = styled.button`
@@ -72,6 +95,9 @@ export const HeaderLoginClick = styled.button`
     &:active{
         background-color: #850000;
         transition: 0.3s ease-in-out;
+    }
+    @media (max-width:1500px) {
+        margin-right: 20px;
     }
 `;
 export const HeaderTitleblock = styled.div`

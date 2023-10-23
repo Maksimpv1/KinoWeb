@@ -1,3 +1,7 @@
+import { useContext } from "react";
+
+import { ThemeContext } from "../providers/themeProvider";
+
 import { MainBlockImg, MainContainer, MainDiscription, MainFirstState, MainSecondState, MainTitle, MainWrapper, SpaceLine } from "./mainBlockStyles"
 
 interface IMainComponet {
@@ -8,12 +12,13 @@ interface IMainComponet {
 }
 
 export const MainComponent = (props:IMainComponet)=>{
+    const themes = useContext(ThemeContext);
     return(
-        <MainContainer>
+        <MainContainer  colorBg = {themes.BACKGROUND_THEME}>
            <MainWrapper>
                 <MainFirstState Orient={props.Orientation}>
-                    <MainTitle>{props.Title}</MainTitle>
-                    <MainDiscription>{props.Discription}</MainDiscription>
+                    <MainTitle colorText={themes.TEXT_THEME}>{props.Title}</MainTitle>
+                    <MainDiscription colorText={themes.TEXT_THEME}>{props.Discription}</MainDiscription>
                 </MainFirstState>
                 <MainSecondState Orient={props.Orientation}>
                     <MainBlockImg src={props.Src} />
