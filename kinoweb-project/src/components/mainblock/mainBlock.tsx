@@ -14,6 +14,7 @@ export const MainBlock = () => {
                     Discription={item.body} 
                     Src={item.source} 
                     Orientation={item.orientation} 
+                    
                     />
             ))}
             <MainQuestions/>            

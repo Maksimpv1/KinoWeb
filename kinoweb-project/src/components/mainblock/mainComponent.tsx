@@ -14,13 +14,13 @@ interface IMainComponet {
 export const MainComponent = (props:IMainComponet)=>{
     const themes = useContext(ThemeContext);
     return(
-        <MainContainer  colorBg = {themes.BACKGROUND_THEME}>
+        <MainContainer  colorbg = {themes.BACKGROUND_THEME}>
            <MainWrapper>
-                <MainFirstState Orient={props.Orientation}>
-                    <MainTitle colorText={themes.TEXT_THEME}>{props.Title}</MainTitle>
-                    <MainDiscription colorText={themes.TEXT_THEME}>{props.Discription}</MainDiscription>
+                <MainFirstState orientation={props.Orientation.toString()}>
+                    <MainTitle colortext={themes.TEXT_THEME}>{props.Title}</MainTitle>
+                    <MainDiscription colortext={themes.TEXT_THEME}>{props.Discription}</MainDiscription>
                 </MainFirstState>
-                <MainSecondState Orient={props.Orientation}>
+                <MainSecondState orientation={props.Orientation.toString()}>
                     <MainBlockImg src={props.Src} />
                 </MainSecondState>
            </MainWrapper>

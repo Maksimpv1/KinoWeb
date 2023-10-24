@@ -1,12 +1,12 @@
 import styled from "styled-components";
 export interface ThemeProps {
-    colorText?:string,
-    colorBg?:string,
+    colortext?:string,
+    colorbg?:string,
   }
 
 export const FooterContainer = styled.div<ThemeProps>`
     width:100%;
-    background-color:${(props)=> props.colorBg};
+    background-color:${(props)=> props.colorbg};
 `;
 
 export const FooterWrapper = styled.div`
@@ -16,7 +16,7 @@ export const FooterWrapper = styled.div`
 `;
 
 export const FooterDiscription = styled.p<ThemeProps>`
-    color:${(props)=> props.colorText};
+    color:${(props)=> props.colortext};
     font-size:16px;
     text-align:center;
 `;
@@ -31,7 +31,7 @@ export const FooterDopInfoList = styled.ul`
 `;
 
 export const FooterDopInfoValue = styled.li<ThemeProps>`
-    color:${(props)=> props.colorText};
+    color:${(props)=> props.colortext};
     text-align:center;
     font-size:18px;
     list-style-type:none;

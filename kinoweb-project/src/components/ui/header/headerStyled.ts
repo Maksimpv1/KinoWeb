@@ -4,9 +4,14 @@ import styled from "styled-components";
 import imgBack from "./img/headerBack.jpg";
 
 export interface HeaderProps {
-    isScrolled?:boolean,
+    isscrolled:string,
   }
-
+type displayviewType = {
+    displayview:string,
+}
+type linkthemeType = {
+    linktheme?:string,
+}
 
 export const HeaderContainer = styled.div`
     width:100%;
@@ -26,10 +31,14 @@ export const HeaderMain = styled.div<HeaderProps>`
     width: 100%;
     z-index: 1;
     padding: 5px;
-    background: ${(props)=> props.isScrolled ? '#000000A9':'none'};
+    background: ${({ isscrolled })=> isscrolled === 'true' ? '#000000A9':'none'};
     position: fixed;
     transition: 0.3s ease-in-out;
     display: flex;
+    @media (max-width:600px) {
+    flex-direction: column;
+    transition: 0.3s ease-in-out;
+    }
 `;
 export const HeaderMainLeft = styled.ul`
     width: 50%;
@@ -39,8 +48,14 @@ export const HeaderMainLeft = styled.ul`
     @media (max-width:1500px) {
         width: 60%;
     }
+    @media (max-width:600px) { 
+    width: 100%;
+    margin: 0;
+    }
 `;
 export const HeaderMainList = styled.li`
+    display: flex;
+    align-items: center;
     color:#FFFFFF;
     font-size: 20px;
     list-style-type: none;
@@ -75,6 +90,12 @@ export const HeaderMainRight = styled.ul`
     justify-content: right;
     @media (max-width:1500px) {
         width: 30%;
+    }
+    @media (max-width:600px) {        
+    justify-content: left;
+    transition: 0.3s ease-in-out;
+    width: 100%;
+    margin: 0;
     }
 `;
 
@@ -115,7 +136,8 @@ export const HeaderTitle = styled.h1`
     font-weight: 800;
 `;
 
-export const StyledNavLink = styled(NavLink)`
+export const StyledNavLink = styled(NavLink)<displayviewType>`
+    display:${({ displayview }) => displayview === 'true' ? 'none' : 'block'};
     color:#FFFFFF;
     font-size: 20px;
     list-style-type: none;
@@ -131,3 +153,27 @@ export const StyledNavLink = styled(NavLink)`
     }
 `;
 
+export const StyledBurgerNavLink = styled(NavLink)<linkthemeType>`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 30px;
+    margin:20px 0;
+    color:${({ linktheme }) => linktheme };
+    font-size: 20px;
+    list-style-type: none;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    text-decoration: none;
+    padding-bottom: 10px;
+    border-bottom: ${({ linktheme })=>linktheme} 1px solid;
+    &:hover{
+        color:#E7CA6F;
+        transition: 0.3s ease-in-out;
+    }
+    &:active{
+        color:#685B32;
+    }
+`;

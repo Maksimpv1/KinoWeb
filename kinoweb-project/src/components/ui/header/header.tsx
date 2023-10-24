@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
+import { AppDispatch, useAppSelectorType } from "../../../redux/store/store";
 import { ThemeContext } from "../../providers/themeProvider";
 
 import { BurgerMenu } from "./burger/burgerMenu";
@@ -33,17 +34,24 @@ export const Header = () => {
       };
     }, []);
 
+
+    const burgerWindowsWidth = useAppSelectorType((state) => state.burgerShow)
+
   return (
     <HeaderContainer>
       <HeaderShadow>
-        <HeaderMain isScrolled={isScrolled}>
+        <HeaderMain isscrolled={isScrolled.toString()}>
           <HeaderMainLeft>
             <HeaderMainList>
               <BurgerMenu/>
               <MainLogo src={Logo}></MainLogo>              
             </HeaderMainList>
             {(headData.map((item)=>(
-              <StyledNavLink key={item.id} to={item.link}>{item.title}</StyledNavLink>
+              <StyledNavLink 
+              key={item.id} 
+              to={item.link} 
+              displayview={burgerWindowsWidth.toString()}>
+                {item.title}</StyledNavLink>
             )))}            
           </HeaderMainLeft>
           <HeaderMainRight>

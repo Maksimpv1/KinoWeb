@@ -1,3 +1,4 @@
 export interface IinitialState {
-    test:string,
+    burgerShow:boolean,
+    burgerHandle:boolean,
 }

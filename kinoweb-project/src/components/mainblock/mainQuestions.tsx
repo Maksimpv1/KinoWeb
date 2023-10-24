@@ -21,9 +21,9 @@ export const MainQuestions = ()=>{
       setExpanded(isExpanded ? panel : false);
     };
     return(
-        <MainContainer colorBg = {themes.BACKGROUND_THEME}>
+        <MainContainer colorbg = {themes.BACKGROUND_THEME}>
             <AccordsTitle>Common Questions</AccordsTitle>            
-            <MainWrapper  Accords={true}>
+            <MainWrapper  accords={'true'}>
             {QuestionData.map((item)=>(
                     <Accordion expanded={Expanded === item.id} onChange={handleChange(item.id)} key={item.id} style={{ 
                         background:'#2D2D2D',
