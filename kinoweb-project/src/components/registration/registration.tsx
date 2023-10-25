@@ -1,7 +1,15 @@
-import React from "react"
+import React, { useContext, useEffect } from "react"
+import { useDispatch } from "react-redux";
 import { TextField } from "@mui/material";
 import { Formik,  } from "formik"
 import * as yup from 'yup';
+
+import { changeValueBurgerHandle } from "../../redux/reducers/burgerReduser";
+import { AppDispatch } from "../../redux/store/store";
+import { ErrorMessage, FormButton, FormTitle, LoginFormMain, TextFieldContainer } from "../loginForm/loginFormStyle";
+import { SpaceLine } from "../mainblock/mainBlockStyles";
+import { ThemeContext } from "../providers/themeProvider";
+import { Container, Wrapper } from "../shared/styledComponents";
 
 interface IRegistration {
     firstName:string,
@@ -12,6 +20,14 @@ interface IRegistration {
 }
 
 export const Registration = () => {
+    
+    const themes = useContext(ThemeContext);
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(()=>{
+        dispatch(changeValueBurgerHandle({ value:false }))
+    },[])
 
     const ValidationsSchema = yup.object().shape({
         firstName: yup.string().typeError('Должно быть строкой').required('Обязательное поле'),
@@ -22,92 +38,113 @@ export const Registration = () => {
     })
     
     return(
-        <div>
-            <h2>Registration Form</h2>
-            <Formik
-            initialValues={{
-                firstName:'',
-                lastName:'',
-                password:'',
-                confirmPassword:'',
-                email:'',
-            }}            
-            validateOnBlur
-            onSubmit ={(values:IRegistration) => {alert(
-                `
-                 Имя: ${values.firstName}
-                 Фамилия: ${values.lastName}
-                 Email: ${values.email}
-                 Пароль: ${values.password}`
-            )}}
-            validationSchema={ValidationsSchema}
-            >
-       {({ values,errors,touched,handleChange, handleBlur,isValid,handleSubmit, dirty }) => (
-                            <form onSubmit={handleSubmit}>
-                                <TextField 
-                                id="outlined-basic" 
-                                label="First Name" 
-                                variant="outlined" 
-                                type={`text`}
-                                name={`firstName`}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.firstName}
-                                />
-                                {touched.firstName && errors.firstName && <p>{errors.firstName}</p>}
-                                
-                                <TextField 
-                                id="outlined-basic" 
-                                label="Last Name" 
-                                variant="outlined" 
-                                type={`text`}
-                                name={`lastName`}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.lastName}
-                                />
-                                {touched.lastName && errors.lastName && <p>{errors.lastName}</p>}
-                                
-                                <TextField 
-                                id="outlined-basic" 
-                                label="Email" 
-                                variant="outlined" 
-                                type={`email`}
-                                name={`email`}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.email}
-                                />
-                                {touched.email && errors.email && <p>{errors.email}</p>}
-                                <TextField 
-                                id="outlined-basic" 
-                                label="Password" 
-                                variant="outlined" 
-                                type={`password`}
-                                name={`password`}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.password}
-                                />
-                                {touched.password && errors.password && <p>{errors.password}</p>}
-                                <TextField 
-                                id="outlined-basic" 
-                                label="Confirm password" 
-                                variant="outlined" 
-                                type={`password`}
-                                name={`confirmPassword`}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.confirmPassword}
-                                />
-                                {touched.confirmPassword && errors.confirmPassword && <p>
-                                    {errors.confirmPassword}</p>}  
-                               <button 
-                                disabled={!isValid && !dirty}
-                                type="submit">Submit</button>
-                            </form>
-                        )}
-            </Formik>
-        </div>
+        <Container colorbg = {themes.BACKGROUND_THEME}>
+            <SpaceLine></SpaceLine>
+            <Wrapper>
+                <FormTitle colortext={themes.TEXT_THEME}>Registration Form</FormTitle>
+                <Formik
+                initialValues={{
+                    firstName:'',
+                    lastName:'',
+                    password:'',
+                    confirmPassword:'',
+                    email:'',
+                }}            
+                validateOnBlur
+                onSubmit ={(values:IRegistration) => {alert(
+                    `
+                    Имя: ${values.firstName}
+                    Фамилия: ${values.lastName}
+                    Email: ${values.email}
+                    Пароль: ${values.password}`
+                )}}
+                validationSchema={ValidationsSchema}
+                >
+        {({ values,errors,touched,handleChange, handleBlur,isValid,handleSubmit, dirty }) => (
+                                <LoginFormMain onSubmit={handleSubmit}>
+                                    <TextFieldContainer>
+                                        <TextField 
+                                        id="outlined-basic" 
+                                        label="First Name" 
+                                        variant="outlined" 
+                                        type={`text`}
+                                        name={`firstName`}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.firstName}
+                                        />
+                                        {touched.firstName && errors.firstName && 
+                                        <ErrorMessage>{errors.firstName}</ErrorMessage>}
+                                    </TextFieldContainer>
+                                    
+                                    <TextFieldContainer>
+                                        <TextField 
+                                        id="outlined-basic" 
+                                        label="Last Name" 
+                                        variant="outlined" 
+                                        type={`text`}
+                                        name={`lastName`}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.lastName}
+                                        />
+                                        {touched.lastName && errors.lastName && 
+                                        <ErrorMessage>{errors.lastName}</ErrorMessage>}
+                                    </TextFieldContainer>
+                                    
+                                    <TextFieldContainer>
+                                        <TextField 
+                                        id="outlined-basic" 
+                                        label="Email" 
+                                        variant="outlined" 
+                                        type={`email`}
+                                        name={`email`}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.email}
+                                        />
+                                        {touched.email && errors.email &&
+                                         <ErrorMessage>{errors.email}</ErrorMessage>}
+                                    </TextFieldContainer>
+
+                                    <TextFieldContainer>
+                                        <TextField 
+                                        id="outlined-basic" 
+                                        label="Password" 
+                                        variant="outlined" 
+                                        type={`password`}
+                                        name={`password`}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.password}
+                                        />
+                                        {touched.password && errors.password &&
+                                         <ErrorMessage>{errors.password}</ErrorMessage>}
+                                    </TextFieldContainer>
+
+                                    <TextFieldContainer>
+                                        <TextField 
+                                        id="outlined-basic" 
+                                        label="Confirm password" 
+                                        variant="outlined" 
+                                        type={`password`}
+                                        name={`confirmPassword`}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.confirmPassword}
+                                        />
+                                        {touched.confirmPassword && errors.confirmPassword && 
+                                        <ErrorMessage>{errors.confirmPassword}</ErrorMessage>} 
+                                    </TextFieldContainer> 
+                                    
+                                <FormButton 
+                                    disabled={!isValid && !dirty}
+                                    type="submit">Submit</FormButton>
+                                </LoginFormMain>
+                            )}
+                </Formik>
+            </Wrapper>
+            <SpaceLine></SpaceLine>
+        </Container>
     )
 }

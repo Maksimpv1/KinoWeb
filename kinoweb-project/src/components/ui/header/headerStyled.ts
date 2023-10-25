@@ -177,3 +177,7 @@ export const StyledBurgerNavLink = styled(NavLink)<linkthemeType>`
         color:#685B32;
     }
 `;
+
+export const NavLinkLogin = styled(NavLink)`
+    text-decoration:none;
+`;

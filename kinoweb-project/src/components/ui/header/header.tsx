@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
-import { AppDispatch, useAppSelectorType } from "../../../redux/store/store";
+import {  useAppSelectorType } from "../../../redux/store/store";
 import { ThemeContext } from "../../providers/themeProvider";
 
 import { BurgerMenu } from "./burger/burgerMenu";
 import Logo from "./img/mainlogo.png";
 import { headData } from "./headerData";
-import { HeaderContainer, HeaderLoginClick, HeaderMain, HeaderMainLeft, HeaderMainList, HeaderMainRight, HeaderShadow, HeaderTitle, HeaderTitleblock, MainLogo, StyledNavLink } from "./headerStyled";
+import { HeaderContainer, HeaderLoginClick, HeaderMain, HeaderMainLeft, HeaderMainList, HeaderMainRight, HeaderShadow, HeaderTitle, HeaderTitleblock, MainLogo, NavLinkLogin, StyledNavLink } from "./headerStyled";
 
 
 export const Header = () => {
@@ -79,7 +78,7 @@ export const Header = () => {
                 </FormControl>
             </HeaderMainList>
             <HeaderMainList>
-              <HeaderLoginClick><NavLink to="/Login">Login</NavLink></HeaderLoginClick>
+              <NavLinkLogin to="/Login"><HeaderLoginClick>Login</HeaderLoginClick></NavLinkLogin>
             </HeaderMainList>
           </HeaderMainRight>          
         </HeaderMain>
