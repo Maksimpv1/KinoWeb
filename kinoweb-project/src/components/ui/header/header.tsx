@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 import { AppDispatch, useAppSelectorType } from "../../../redux/store/store";
@@ -78,7 +79,7 @@ export const Header = () => {
                 </FormControl>
             </HeaderMainList>
             <HeaderMainList>
-              <HeaderLoginClick>Login</HeaderLoginClick>
+              <HeaderLoginClick><NavLink to="/Login">Login</NavLink></HeaderLoginClick>
             </HeaderMainList>
           </HeaderMainRight>          
         </HeaderMain>

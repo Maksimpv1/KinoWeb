@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Films } from "./components/films/films";
 import { Help } from "./components/help/help";
+import { LoginForm } from "./components/loginForm/loginForm";
 import { MainBlock } from "./components/mainblock/mainBlock";
 import { News } from "./components/news/news";
 import { NotFound } from "./components/notFound/notFound";
 import { ThemeProvider } from "./components/providers/themeProvider";
+import { Registration } from "./components/registration/registration";
 import { Search } from "./components/search/search";
 import { Footer } from "./components/ui/footer/footer";
 import { Header } from "./components/ui/header/header";
@@ -26,6 +28,8 @@ function App() {
               <Route path="/Search" element={<Search/>}/>
               <Route path="/Help" element={<Help/>}/>
               <Route path="/Films" element={<Films/>}/>
+              <Route path="/Login" element={<LoginForm/>}/>
+              <Route path="/Registration" element={<Registration/>}/>
               <Route path="/*" element={<NotFound/>}/>
             </Routes>
           </div>
