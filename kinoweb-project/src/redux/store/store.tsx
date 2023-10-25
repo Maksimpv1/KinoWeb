@@ -1,14 +1,17 @@
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
+import { authSlice } from "../reducers/authorisation";
 import { burgerSlice } from "../reducers/burgerReduser";
 
 export const store = configureStore ({
-    reducer:burgerSlice.reducer,
+    reducer: {
+        burger:burgerSlice.reducer,
+        auth:authSlice.reducer,
+    }
 })
-//1. Способ типизации
 export type StoreType = ReturnType<typeof store.getState>;
-//2. Способ типизции
+
 export const useAppSelectorType: TypedUseSelectorHook<StoreType> = useSelector;
 
 export type AppDispatch = typeof store.dispatch;

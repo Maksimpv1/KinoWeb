@@ -8,7 +8,7 @@ const initialState:IinitialState = {
     burgerHandle:false,
 }
 
-export const burgerSlice:any = createSlice({
+export const burgerSlice = createSlice({
     name: "System name",
     initialState,
     reducers:{

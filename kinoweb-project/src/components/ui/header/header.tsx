@@ -35,7 +35,7 @@ export const Header = () => {
     }, []);
 
 
-    const burgerWindowsWidth = useAppSelectorType((state) => state.burgerShow)
+    const burgerWindowsWidth = useAppSelectorType((state) => state.burger.burgerShow)
 
   return (
     <HeaderContainer>

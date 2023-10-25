@@ -15,8 +15,8 @@ export const BurgerMenu = () => {
     const themes = useContext(ThemeContext)!;
 
     const dispatch = useDispatch<AppDispatch>();
-    const burgerWindowsWidth = useAppSelectorType((state) => state.burgerShow)
-    const burgerClick = useAppSelectorType((state) => state.burgerHandle)
+    const burgerWindowsWidth = useAppSelectorType((state) => state.burger.burgerShow)
+    const burgerClick = useAppSelectorType((state) => state.burger.burgerHandle)
 
     useEffect(()=>{
         const handleSize = () => {
