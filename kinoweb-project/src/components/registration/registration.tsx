@@ -1,9 +1,12 @@
 import React, { useContext, useEffect } from "react"
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
+import { createUserWithEmailAndPassword,getAuth } from "firebase/auth";
 import { Formik,  } from "formik"
 import * as yup from 'yup';
 
+import { setUser } from "../../redux/reducers/authorisation";
 import { changeValueBurgerHandle } from "../../redux/reducers/burgerReduser";
 import { AppDispatch } from "../../redux/store/store";
 import { ErrorMessage, FormButton, FormTitle, LoginFormMain, TextFieldContainer } from "../loginForm/loginFormStyle";
@@ -20,6 +23,8 @@ interface IRegistration {
 }
 
 export const Registration = () => {
+
+     const navigate = useNavigate()
     
     const themes = useContext(ThemeContext);
 
@@ -28,6 +33,21 @@ export const Registration = () => {
     useEffect(()=>{
         dispatch(changeValueBurgerHandle({ value:false }))
     },[])
+
+    const handlerRegistration = (email:string, password:string)=>{
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(({ user })=>{
+                console.log(user)
+                dispatch(setUser({
+                    email:user.email,
+                    id:user.uid,
+                    token:user.refreshToken,
+                }))
+                navigate('/Login')
+            })
+            .catch(console.error)
+    }
 
     const ValidationsSchema = yup.object().shape({
         firstName: yup.string().typeError('Должно быть строкой').required('Обязательное поле'),
@@ -51,7 +71,9 @@ export const Registration = () => {
                     email:'',
                 }}            
                 validateOnBlur
-                onSubmit ={(values:IRegistration) => {alert(
+                onSubmit ={(values:IRegistration) => {
+                    handlerRegistration(values.email,values.password)
+                    alert(
                     `
                     Имя: ${values.firstName}
                     Фамилия: ${values.lastName}

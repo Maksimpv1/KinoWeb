@@ -10,4 +10,5 @@ export interface IinitialStateAuth {
     password:string | null,
     token:string | null,
     id: number | null,
+    logState: boolean,
 }

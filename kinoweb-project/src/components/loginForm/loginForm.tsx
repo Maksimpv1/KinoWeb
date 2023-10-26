@@ -1,9 +1,12 @@
 import React, { useContext, useEffect } from "react"
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import { TextField } from "@mui/material";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Formik,  } from "formik"
 import * as yup from 'yup';
 
+import { loginStateSwitch, setUser } from "../../redux/reducers/authorisation";
 import { changeValueBurgerHandle } from "../../redux/reducers/burgerReduser";
 import { AppDispatch } from "../../redux/store/store";
 import { SpaceLine } from "../mainblock/mainBlockStyles";
@@ -18,7 +21,9 @@ interface ILoginForm {
 }
 
 export const LoginForm = () => {
-    
+
+    const navigate = useNavigate()
+
     const themes = useContext(ThemeContext);
 
     const dispatch = useDispatch<AppDispatch>();
@@ -26,6 +31,22 @@ export const LoginForm = () => {
     useEffect(()=>{
         dispatch(changeValueBurgerHandle({ value:false }))
     },[])
+
+    const handlerLogin = (email:string, password:string)=>{
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+            .then(({ user })=>{
+                console.log(user)
+                dispatch(setUser({
+                    email:user.email,
+                    id:user.uid,
+                    token:user.refreshToken,
+                }))
+                dispatch(loginStateSwitch())
+                navigate('/Profile')
+            })
+            .catch(() => alert("invalid user"))
+    }
 
     const ValidationsSchema = yup.object().shape({
         password: yup.string().typeError('Должно быть строкой').required('Обязательное поле').min(8,'Min 8 symbols'),
@@ -42,11 +63,9 @@ export const LoginForm = () => {
                     password:'',
                 }}
                 validateOnBlur
-                    onSubmit ={(values:ILoginForm) => {alert(
-                        `
-                        Email: ${values.email}
-                        Пароль: ${values.password}`
-                    )}}
+                    onSubmit ={(values:ILoginForm) => {
+                        handlerLogin(values.email,values.password)
+                        }}
                     validationSchema={ValidationsSchema}            
                 >
                     {({ values,errors,touched,handleChange, handleBlur,isValid,handleSubmit, dirty }) => (

@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
-import {  useAppSelectorType } from "../../../redux/store/store";
+import { loginStateSwitch, removeUser } from "../../../redux/reducers/authorisation";
+import {  AppDispatch, useAppSelectorType } from "../../../redux/store/store";
 import { ThemeContext } from "../../providers/themeProvider";
 
 import { BurgerMenu } from "./burger/burgerMenu";
@@ -11,7 +14,28 @@ import { HeaderContainer, HeaderLoginClick, HeaderMain, HeaderMainLeft, HeaderMa
 
 
 export const Header = () => {
-  const [age, setAge] = React.useState('');
+  const dispatch = useDispatch<AppDispatch>();
+
+  const [age, setAge] = useState<string>('');
+
+  const [loginText, setLoginText] = useState<string>('Login');
+
+  const loginState = useAppSelectorType((state)=>state.auth.logState)
+
+  useEffect(()=>{
+    if(loginState === true ){
+      setLoginText('Logout')
+    }else{
+      setLoginText('Login')
+    }
+  },)
+
+  const handleLogin = () => {
+    if(loginState === true){      
+      dispatch(loginStateSwitch())
+      dispatch(removeUser())
+    }
+  }
 
   const themeSw = useContext(ThemeContext)!;
 
@@ -44,14 +68,15 @@ export const Header = () => {
           <HeaderMainLeft>
             <HeaderMainList>
               <BurgerMenu/>
-              <MainLogo src={Logo}></MainLogo>              
+              <NavLink to="/"><MainLogo src={Logo}></MainLogo></NavLink>          
             </HeaderMainList>
             {(headData.map((item)=>(
               <StyledNavLink 
               key={item.id} 
               to={item.link} 
               displayview={burgerWindowsWidth.toString()}>
-                {item.title}</StyledNavLink>
+                {item.title}
+                </StyledNavLink>
             )))}            
           </HeaderMainLeft>
           <HeaderMainRight>
@@ -78,7 +103,7 @@ export const Header = () => {
                 </FormControl>
             </HeaderMainList>
             <HeaderMainList>
-              <NavLinkLogin to="/Login"><HeaderLoginClick>Login</HeaderLoginClick></NavLinkLogin>
+              <NavLinkLogin to="/Login"><HeaderLoginClick onClick={handleLogin}>{loginText}</HeaderLoginClick></NavLinkLogin>
             </HeaderMainList>
           </HeaderMainRight>          
         </HeaderMain>

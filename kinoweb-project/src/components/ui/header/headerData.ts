@@ -22,8 +22,8 @@ export const headData: Array<IheaData> = [
     },
     {
         id:4,
-        title:'Help',
-        link:'/Help',
+        title:'Profile',
+        link:'/Profile',
     },
     {
         id:5,

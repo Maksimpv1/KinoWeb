@@ -7,6 +7,7 @@ import { LoginForm } from "./components/loginForm/loginForm";
 import { MainBlock } from "./components/mainblock/mainBlock";
 import { News } from "./components/news/news";
 import { NotFound } from "./components/notFound/notFound";
+import { Profile } from "./components/profile/profile";
 import { ThemeProvider } from "./components/providers/themeProvider";
 import { Registration } from "./components/registration/registration";
 import { Search } from "./components/search/search";
@@ -30,6 +31,7 @@ function App() {
               <Route path="/Films" element={<Films/>}/>
               <Route path="/Login" element={<LoginForm/>}/>
               <Route path="/Registration" element={<Registration/>}/>
+              <Route path="/Profile" element={<Profile/>}/>
               <Route path="/*" element={<NotFound/>}/>
             </Routes>
           </div>
@@ -41,3 +43,6 @@ function App() {
 }
 
 export default App;
+
+
+

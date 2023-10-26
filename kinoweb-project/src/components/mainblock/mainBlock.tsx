@@ -4,7 +4,8 @@ import { MainComponent } from "./mainComponent"
 import { MainQuestions } from "./mainQuestions"
 
 export const MainBlock = () => {
-    return (
+
+    return(
         <div>
             <SpaceLine></SpaceLine>
             {MainBlockData.map((item)=>(
@@ -21,3 +22,4 @@ export const MainBlock = () => {
         </div>
     )
 }
+

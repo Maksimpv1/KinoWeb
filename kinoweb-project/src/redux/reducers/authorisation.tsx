@@ -9,6 +9,7 @@ const initialState:IinitialStateAuth = {
     password:'',
     token:null,
     id: null,
+    logState: false,
 }
 
 export const authSlice = createSlice({
@@ -30,10 +31,13 @@ export const authSlice = createSlice({
             state.password = null
             state.token = null
             state.id = null
-        }
+        },
+        loginStateSwitch:(state)=>{
+            state.logState = !state.logState
+        },
     }
 })
 
-export const { setUser,removeUser } = authSlice.actions
+export const { setUser,removeUser,loginStateSwitch } = authSlice.actions
 
 export default authSlice.reducer
