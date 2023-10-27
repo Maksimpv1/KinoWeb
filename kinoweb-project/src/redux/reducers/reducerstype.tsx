@@ -16,20 +16,23 @@ export interface IinitialStateAuth {
 export interface IfilmsData {
     id:number,
     alternativeName:string,
-    description:number,
-    genres:Array<string>,
+    description:string,
+    genres:Array<Igenres>,
     name:string,
-    poster:Iposter,
+    filmTitle: string,
+    altFilmName:string,
+    poster: {
+        previewUrl: string,
+        url: string,
+      };
     shortDescription:string,
     year:number,
-    logo:Ilogo,
+    logo: {
+        url: string,
+      };
 }
 
-interface Iposter {
-    previewUrl:string,
-    url:string,
+interface Igenres{
+    name:string;
 }
 
-interface Ilogo {
-    url:string,
-}

@@ -4,11 +4,13 @@ import { ThemeProps } from "../../ui/footer/footerStyled";
 
 interface Ibackimage{
     backimage:string,
+    backimageSmall?:boolean,
 }
 
 
 export const Container = styled.div<ThemeProps>`
     background-color: ${({ colorbg })=>colorbg} ;
+    background-size: cover;
     width:100%;
     margin: 0;
     padding: 0px;
@@ -24,7 +26,7 @@ export const BanerContainer = styled.div<Ibackimage>`
     margin: 0;
     width:100%;
     height: 700px;
-    background-size: cover;
+    background-size: ${({ backimageSmall }) => backimageSmall ? "100%" : "cover"};
     background-repeat: no-repeat;
     background-position: center;
     background-image: url(${({ backimage }) => backimage});
@@ -48,7 +50,7 @@ export const MainTitleblock = styled.h3`
     margin: 0 auto;
 
 `;
-export const MainTitle = styled.h1`
+export const MainTitle = styled.p`
     text-align: center;
     margin: 0 auto;
     padding-top: 150px;

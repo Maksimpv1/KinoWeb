@@ -110,3 +110,92 @@ export const PreviewButton = styled.div`
         background-color: #CFFF32FF ;
     }
 `;
+
+export const FilmPageWrapper = styled.div`
+    border-radius: 20px;
+    max-width: 1170px;
+    background-color: #232323FF;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+`;
+
+export const FilmMainTitle = styled.h2`
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 30px;
+`;
+
+export const FilmMain = styled.div`
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+`;
+
+export const FilmMainLeft = styled.div`
+    width: 50%;
+    left: 0;
+    min-width: 300px;
+    margin: 20px;        
+    border:#FFFFFF 5px solid ;
+    border-radius: 5px;
+    overflow:hidden;
+`;
+
+export const FilmMainPoster = styled.img`
+    width: 100%;
+    height: 100%;
+    transition: 0.3s ease-in-out;
+    &:hover{
+        scale: 1.1;
+        transition: 0.3s ease-in-out;
+    }
+`;
+
+export const FilmMainRight = styled.div`
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    justify-content: space-between;
+`;
+
+export const FilmGenresTitle = styled.h3`
+    color:#FFFFFF;
+    font-weight: 600;
+    font-size: 20px;
+`;
+
+export const FilmGenresList = styled.ul`
+    
+    
+`;
+export const FilmGenresListProp = styled.li`
+    list-style-type: none;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 600px;
+    text-align: justify;
+`;
+
+export const FilmAddFavorits = styled.button`
+    width: 200px;
+    height: 80px;
+    border: #FFFFFF 2px solid;
+    border-radius: 5px;
+    background: none;
+    color: #FFFFFF;
+    font-size: 26px;
+    margin-bottom: 20px;
+    transition: 0.3s ease-in-out;
+    &:hover{
+        background-color: #FFFFFF21;
+        transition: 0.3s ease-in-out;
+    }
+    &:active{
+        background-color: #FFFFFF74;
+    }
+`;
+
