@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Films } from "./components/films/films";
+import { Film } from "./components/films/fimsComponents/film";
 import { Help } from "./components/help/help";
 import { LoginForm } from "./components/loginForm/loginForm";
 import { MainBlock } from "./components/mainblock/mainBlock";
@@ -13,10 +15,19 @@ import { Registration } from "./components/registration/registration";
 import { Search } from "./components/search/search";
 import { Footer } from "./components/ui/footer/footer";
 import { Header } from "./components/ui/header/header";
+import { fetchFilms } from "./redux/reducers/filmsReducer";
+import { AppDispatch } from "./redux/store/store";
 
 import "./App.css";
 
 function App() {
+  
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchFilms());
+  }, []);
+
   return (
     <ThemeProvider>
       <Router>
@@ -29,6 +40,7 @@ function App() {
               <Route path="/Search" element={<Search/>}/>
               <Route path="/Help" element={<Help/>}/>
               <Route path="/Films" element={<Films/>}/>
+              <Route path="/Film/:id" element={<Film/>}/>
               <Route path="/Login" element={<LoginForm/>}/>
               <Route path="/Registration" element={<Registration/>}/>
               <Route path="/Profile" element={<Profile/>}/>
