@@ -3,10 +3,11 @@ import { useContext } from "react";
 import { useAppSelectorType } from "../../redux/store/store"
 import { SpaceLine } from "../mainblock/mainBlockStyles";
 import { ThemeContext } from "../providers/themeProvider";
-import { Container } from "../shared/styledComponents"
+import { BanerContainer, BanerShadow, Container, MainTitle, MainTitleblock } from "../shared/styledComponents"
 
 import { FilmWrapper } from "./fimsComponents/filmComponentsStyled";
 import { FilmFront } from "./fimsComponents/filmFrontCard";
+import imgBack from "./fimsComponents/img/filmsback.jpg";
 
 export const Films = () => {
     
@@ -17,6 +18,15 @@ export const Films = () => {
 
     return(
             <Container colorbg = {themes.BACKGROUND_THEME}>
+            <BanerContainer backimage={imgBack}>
+                <BanerShadow>
+                    <MainTitleblock>
+                        <MainTitle>
+                            Movies, TV series and much more without restrictions
+                        </MainTitle>
+                    </MainTitleblock>
+                </BanerShadow>                
+            </BanerContainer> 
                 <SpaceLine></SpaceLine>
                 <div style={{ padding:'20px' }}>
                     <FilmWrapper>

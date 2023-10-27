@@ -12,7 +12,9 @@ import { AppDispatch } from "../../redux/store/store";
 import { ErrorMessage, FormButton, FormTitle, LoginFormMain, TextFieldContainer } from "../loginForm/loginFormStyle";
 import { SpaceLine } from "../mainblock/mainBlockStyles";
 import { ThemeContext } from "../providers/themeProvider";
-import { Container, Wrapper } from "../shared/styledComponents";
+import { BanerContainer, BanerShadow, Container, MainTitle, MainTitleblock, Wrapper } from "../shared/styledComponents";
+
+import imgBack from "./img/Registration.jpg"
 
 interface IRegistration {
     firstName:string,
@@ -59,6 +61,15 @@ export const Registration = () => {
     
     return(
         <Container colorbg = {themes.BACKGROUND_THEME}>
+            <BanerContainer backimage={imgBack}>
+                <BanerShadow>
+                    <MainTitleblock>
+                        <MainTitle>
+                            Register to start watching your favorite movies
+                        </MainTitle>
+                    </MainTitleblock>
+                </BanerShadow>                
+            </BanerContainer> 
             <SpaceLine></SpaceLine>
             <Wrapper>
                 <FormTitle colortext={themes.TEXT_THEME}>Registration Form</FormTitle>

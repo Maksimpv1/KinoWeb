@@ -10,7 +10,7 @@ import { ThemeContext } from "../../providers/themeProvider";
 import { BurgerMenu } from "./burger/burgerMenu";
 import Logo from "./img/mainlogo.png";
 import { headData } from "./headerData";
-import { HeaderContainer, HeaderLoginClick, HeaderMain, HeaderMainLeft, HeaderMainList, HeaderMainRight, HeaderShadow, HeaderTitle, HeaderTitleblock, MainLogo, NavLinkLogin, StyledNavLink } from "./headerStyled";
+import { HeaderContainer, HeaderLoginClick, HeaderMain, HeaderMainLeft, HeaderMainList, HeaderMainRight, MainLogo, NavLinkLogin, StyledNavLink } from "./headerStyled";
 
 
 export const Header = () => {
@@ -62,8 +62,7 @@ export const Header = () => {
     const burgerWindowsWidth = useAppSelectorType((state) => state.burger.burgerShow)
 
   return (
-    <HeaderContainer>
-      <HeaderShadow>
+      <HeaderContainer>
         <HeaderMain isscrolled={isScrolled.toString()}>
           <HeaderMainLeft>
             <HeaderMainList>
@@ -107,12 +106,6 @@ export const Header = () => {
             </HeaderMainList>
           </HeaderMainRight>          
         </HeaderMain>
-        <HeaderTitleblock>
-          <HeaderTitle>
-            Movies, TV series and much more without restrictions
-          </HeaderTitle>
-        </HeaderTitleblock>
-      </HeaderShadow>      
-    </HeaderContainer>
+      </HeaderContainer>
   );
 };

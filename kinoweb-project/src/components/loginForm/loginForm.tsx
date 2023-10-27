@@ -11,8 +11,9 @@ import { changeValueBurgerHandle } from "../../redux/reducers/burgerReduser";
 import { AppDispatch } from "../../redux/store/store";
 import { SpaceLine } from "../mainblock/mainBlockStyles";
 import { ThemeContext } from "../providers/themeProvider";
-import { Container, Wrapper } from "../shared/styledComponents";
+import { BanerContainer, BanerShadow, Container, MainTitle, MainTitleblock, Wrapper } from "../shared/styledComponents";
 
+import imgBack from "./img/LoginBack.jpg";
 import { ErrorMessage, FormButton, FormTitle, LoginFormMain, RegisterLink, TextFieldContainer } from "./loginFormStyle";
 
 interface ILoginForm {
@@ -54,6 +55,15 @@ export const LoginForm = () => {
     })
     return(
         <Container colorbg = {themes.BACKGROUND_THEME}>
+            <BanerContainer backimage={imgBack}>
+                <BanerShadow>
+                    <MainTitleblock>
+                        <MainTitle>
+                            Login soon to start watching your favorit movies
+                        </MainTitle>
+                    </MainTitleblock>
+                </BanerShadow>                
+            </BanerContainer> 
             <SpaceLine></SpaceLine>
             <Wrapper>
                 <FormTitle colortext={themes.TEXT_THEME}>Login form</FormTitle>

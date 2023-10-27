@@ -49,8 +49,4 @@ export const InfoData:Array<IInfoData> = [
         id:3,
         name:"Search",
     },
-    {
-        id:4,
-        name:"Help",
-    },
 ]

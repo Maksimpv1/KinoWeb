@@ -1,8 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-import imgBack from "./img/headerBack.jpg";
-
 export interface HeaderProps {
     isscrolled:string,
   }
@@ -13,19 +11,11 @@ type linkthemeType = {
     linktheme?:string,
 }
 
+
 export const HeaderContainer = styled.div`
-    width:100%;
-    height: 700px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: url(${imgBack});
-`;
-export const HeaderShadow = styled.div`
-    width: 100%;
-    height: 100%;
-    background:rgba(0,  0,0, 0.55);
-`;
+    position: absolute;
+    margin: 0;
+`; 
 
 export const HeaderMain = styled.div<HeaderProps>`
     width: 100%;
@@ -121,21 +111,6 @@ export const HeaderLoginClick = styled.button`
         margin-right: 20px;
     }
 `;
-export const HeaderTitleblock = styled.div`
-    display: block;
-    height: 100%;
-    max-width:600px;
-    margin: 0 auto;
-`;
-export const HeaderTitle = styled.h1`
-    text-align: center;
-    margin: 0 auto;
-    padding-top: 350px;
-    color:#FFFFFF;
-    font-size:40px;
-    font-weight: 800;
-`;
-
 export const StyledNavLink = styled(NavLink)<displayviewType>`
     display:${({ displayview }) => displayview === 'true' ? 'none' : 'block'};
     color:#FFFFFF;
