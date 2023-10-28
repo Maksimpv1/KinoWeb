@@ -22,7 +22,7 @@ export const Film = () => {
         window.scrollTo(0, 0);
     },[])
 
-    const filmData = useAppSelectorType((state) => state.films.film )
+    const filmData = useAppSelectorType((state) =>  state.films.film )
 
     const paramss = useParams();
     

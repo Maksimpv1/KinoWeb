@@ -1,7 +1,9 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Box, CircularProgress } from "@mui/material";
 
-import { useAppSelectorType } from "../../redux/store/store"
+import { setRenderFilmCard } from "../../redux/reducers/filmsReducer";
+import { AppDispatch, useAppSelectorType } from "../../redux/store/store"
 import { SpaceLine } from "../mainblock/mainBlockStyles";
 import { ThemeContext } from "../providers/themeProvider";
 import { BanerContainer, BanerShadow, Container, MainTitle, MainTitleblock } from "../shared/styledComponents"
@@ -11,6 +13,8 @@ import { FilmFront } from "./fimsComponents/filmFrontCard";
 import imgBack from "./fimsComponents/img/filmsback.jpg";
 
 export const Films = () => {
+
+    const dispatch = useDispatch<AppDispatch>()
     
     const themes = useContext(ThemeContext);
 
@@ -18,6 +22,10 @@ export const Films = () => {
 
     const loadingRedux = useAppSelectorType((state) => state.films.loadingFilms)
     const errorRedux = useAppSelectorType((state) => state.films.errorMes)
+
+    useEffect(()=> {
+        dispatch(setRenderFilmCard({ renderValue: true }))
+    },[])
 
 
     if(loadingRedux) {
