@@ -68,7 +68,7 @@ export const searchFilms = createAsyncThunk(
     "films/searchfilms",
     async(searchedValue:string,{ dispatch, rejectWithValue }) => {
         try{
-            const response:Iresponse = await axiosApiConfig.get('/v1.3/movie' , { params: { name: searchedValue } })
+            const response:Iresponse = await axiosApiConfig.get('/v1.3/movie' , { params: { name: searchedValue, limit: 20 } })
             const gotFilms = response.data.docs
             return gotFilms 
         }catch (error: unknown) {

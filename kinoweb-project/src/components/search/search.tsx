@@ -20,6 +20,7 @@ export const Search = () => {
     const searchedFilms = useAppSelectorType((state) => state.films.searchfilms)
 
     const [searchFilmsValue, setSearchFilms] = useState<string>('');
+    const [searchResult, setSearchResult ] = useState<string>('');
 
     const themes = useContext(ThemeContext);
     
@@ -28,9 +29,11 @@ export const Search = () => {
     }
     const handleClick = () => {
         dispatch(searchFilms(searchFilmsValue))
+        setSearchResult(searchFilmsValue)
     }
     
     useEffect(()=> {
+        dispatch(searchFilms(''))
         dispatch(setRenderFilmCard({ renderValue: false }))
     },[])
 
@@ -51,6 +54,9 @@ export const Search = () => {
                         <SearchInput type="text" onChange={handleChange} placeholder="Search" />
                         <SearchBtn onClick={handleClick}><img src={searchIcon}/></SearchBtn> 
                     </SearchContainer> 
+                    <SearchContainer>
+                        <h3 style={ { color:"#FFFFFF" } }>Поиск по запросу: {searchResult}</h3>
+                    </SearchContainer>
                     <FilmWrapper>                                         
                     {searchedFilms.map((item)=>(
                             <FilmFront 
