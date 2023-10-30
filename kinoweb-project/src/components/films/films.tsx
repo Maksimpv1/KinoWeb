@@ -48,23 +48,6 @@ export const Films = () => {
 
 
 
-
-    const addToWatchlist = async () => {
-        const coinRef = doc(dbFirebase, "watchlist", user.uid);
-        try {
-          await setDoc(
-            coinRef,
-            { films: filmsData ? [...filmsData, film?.id] : [film?.id] },
-            { merge: true }
-          );
-        } catch (error) {
-            console.log("Ошибка")
-        }
-      };
-
-
-
-
     return(
         <>
             {!! errorRedux && <h2>Походу лимит на запросы</h2> }

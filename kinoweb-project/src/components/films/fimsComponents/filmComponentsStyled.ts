@@ -1,5 +1,9 @@
 import { styled } from "styled-components";
 
+interface loginState {
+    enabled:boolean,
+}
+
 export const FilmWrapper = styled.div`
     max-width: 1170px;
     background-color: #232323FF;
@@ -67,23 +71,23 @@ export const PreviewBtnsWrappper = styled.div`
     margin: 0;
 `;
 
-export const PreviewIconWrap = styled.div`
+export const PreviewIconWrap = styled.button<loginState>`
     width:30px;
-    height: 30px;
-    background-color: #FBFFEDFF;
+    height: 40px;
+    background-color: ${props => props.enabled ? '#FBFFEDFF' : '#CFFF32FF'};
     border-radius: 5px;
     border: grey 1px solid;
     padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: ${props => props.enabled ? 'pointer' : 'not-allowed'};
     &:hover{
-        background-color: #F1FFC4FF;
+        background-color:  ${props => props.enabled ? '#F1FFC4FF' : '#CFFF32FF'};
         transition: 0.2s ease-in-out;
     }
     &:active{
-        background-color: #CFFF32FF ;
+        background-color: ${props => props.enabled ? '#CFFF32FF' : '#CFFF32FF'};
     }
 `;
 

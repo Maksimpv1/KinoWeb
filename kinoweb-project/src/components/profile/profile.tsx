@@ -1,9 +1,12 @@
 import { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom"
-import { doc, onSnapshot } from "firebase/firestore";
+import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { ThemeContext } from "styled-components";
 
 import { dbFirebase } from "../../firebase";
+import { getFavoritFilm } from "../../redux/reducers/filmsReducer";
+import { AppDispatch, useAppSelectorType } from "../../redux/store/store";
 import { FilmWrapper } from "../films/fimsComponents/filmComponentsStyled";
 import { FilmFront } from "../films/fimsComponents/filmFrontCard";
 import { SpaceLine } from "../mainblock/mainBlockStyles";
@@ -15,34 +18,28 @@ import { FavoritsFilmstitle } from "./profileStyles";
 
 export const Profile = () =>{
 
-    const [user, setUser] = useState(null);
-    const [favoritsFilms, setFavoritsFilms] = useState([]);
+    const [postLists, setPostList] = useState<any>([]);
 
-    const [watchlist, setWatchlist] = useState([]);
+    const favoritsCollection = collection(dbFirebase,"favorits")
 
-    const { isAuth, email} = useAuth();
+    const favoritsFilms = useAppSelectorType((state) => state.films.favoritsFilms)
+
+    const { isAuth, email } = useAuth();
+
+    const dispatch = useDispatch<AppDispatch>()
 
         useEffect(() => {
-        if (user) {
-          const coinRef = doc(dbFirebase, "watchlist", user?.uid);
-          const unsubscribe = onSnapshot(coinRef, (coin) => {
-            if (coin.exists()) {
-              console.log(coin.data().coins);
-              setWatchlist(coin.data().coins);
-            } else {
-              console.log("No Items in Watchlist");
-            }
-          });
-    
-          return () => {
-            unsubscribe();
-          };
-        }
-      }, [user]);
-    
+          const getFavFilms = async() => {
+            const data = await getDocs(favoritsCollection);
+            setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+            dispatch(getFavoritFilm(postLists))
+          }
+          getFavFilms()
 
-    
-
+      }, []);
+      const handleClick = () => {
+        console.log(postLists);
+      };
     
     return isAuth ? (
         
@@ -60,6 +57,7 @@ export const Profile = () =>{
                 <div style={{ padding:'20px' }}>
                     <FilmWrapper>
                         <FavoritsFilmstitle>Favorits Films:</FavoritsFilmstitle>
+                        <button onClick={handleClick}>Get films</button>
                     </FilmWrapper>              
                 </div>     
                 <SpaceLine></SpaceLine>         

@@ -15,9 +15,20 @@ interface IinitialState{
     errorMes:string | null | unknown,
     searchfilms:Array<IfilmsData>,
     renderfilmCard:boolean,
+    favoritsFilms:Array<IFavoritsFilms>,
+}
+
+interface IFavoritsFilms {
+    id:string,
+    title:string,
+    author:{
+        id:string,
+        email:string,
+    }
 }
 
 const initialState:IinitialState = {
+    favoritsFilms:[],
     filmsFetching:true,
     filmsCurrentPage:1,
     films:[],
@@ -124,7 +135,10 @@ export const filmSlice = createSlice({
         },
         setNextFilmsPage: (state) => {
             state.filmsCurrentPage = state.filmsCurrentPage + 1
-        }
+        },
+        getFavoritFilm: (state, action) => {
+            state.favoritsFilms = action.payload.favFilms
+        },
     },
     extraReducers: (builder)=>
     builder
@@ -145,4 +159,10 @@ export const filmSlice = createSlice({
     })  
 })
 
-export const { getFilms,viewFilmCard,setRenderFilmCard,setFetchingFilms,setNextFilmsPage } = filmSlice.actions
+export const { 
+    getFilms,
+    viewFilmCard,
+    setRenderFilmCard,
+    setFetchingFilms,
+    setNextFilmsPage,
+    getFavoritFilm } = filmSlice.actions
