@@ -51,7 +51,7 @@ export const PreviewTitle = styled.h3`
     color:#232323FF;
     width: 200px;
     font-size:16px;
-    height: 50px;
+    height: 80px;
     border: grey 1px solid;
     border-radius: 10px;
     transition: 0.3s ease-in-out;

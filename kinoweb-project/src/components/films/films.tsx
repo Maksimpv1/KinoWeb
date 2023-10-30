@@ -1,8 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Box, CircularProgress } from "@mui/material";
+import { doc, setDoc } from "firebase/firestore";
 
-import { setRenderFilmCard } from "../../redux/reducers/filmsReducer";
+import { dbFirebase } from "../../firebase";
+import { fetchFilms, setFetchingFilms, setRenderFilmCard } from "../../redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "../../redux/store/store"
 import { SpaceLine } from "../mainblock/mainBlockStyles";
 import { ThemeContext } from "../providers/themeProvider";
@@ -15,43 +17,52 @@ import imgBack from "./fimsComponents/img/filmsback.jpg";
 export const Films = () => {
 
     const dispatch = useDispatch<AppDispatch>()
-    
+
     const themes = useContext(ThemeContext);
 
     const filmsData = useAppSelectorType((state)=>state.films.films )
-
     const loadingRedux = useAppSelectorType((state) => state.films.loadingFilms)
     const errorRedux = useAppSelectorType((state) => state.films.errorMes)
+    const fetchingValue = useAppSelectorType((state) => state.films.filmsFetching)
+
+    const handleScroll = () => {
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        setTimeout(() => {
+            if (scrollTop + clientHeight >= scrollHeight ) {
+                dispatch(setFetchingFilms())
+              }                    
+        }, 1000);
+      };
 
     useEffect(()=> {
+        window.addEventListener('scroll', handleScroll);
         dispatch(setRenderFilmCard({ renderValue: true }))
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     },[])
 
+    useEffect(() => {
+        dispatch(fetchFilms())
+    },[fetchingValue])
 
-    if(loadingRedux) {
-        return (
-        <Container colorbg = {themes.BACKGROUND_THEME}>
-            <BanerContainer backimage={imgBack}>
-                <BanerShadow>
-                    <MainTitleblock>
-                        <MainTitle>
-                            Movies, TV series and much more without restrictions
-                        </MainTitle>
-                    </MainTitleblock>
-                </BanerShadow>                
-            </BanerContainer> 
-                <SpaceLine></SpaceLine>
-                <div style={{ padding:'20px' }}>
-                    <FilmWrapper>
-                    <Box sx={{ display: 'flex' }}>
-                        <CircularProgress />
-                    </Box>
-                    </FilmWrapper> 
-                </div>     
-                <SpaceLine></SpaceLine>      
-            </Container>
-        )
-      } 
+
+
+
+    const addToWatchlist = async () => {
+        const coinRef = doc(dbFirebase, "watchlist", user.uid);
+        try {
+          await setDoc(
+            coinRef,
+            { films: filmsData ? [...filmsData, film?.id] : [film?.id] },
+            { merge: true }
+          );
+        } catch (error) {
+            console.log("Ошибка")
+        }
+      };
+
+
 
 
     return(
@@ -78,8 +89,9 @@ export const Films = () => {
                             filmTitle={item.alternativeName}
                             altFilmName={item.name}
                             />
-                        ))}
-                    </FilmWrapper> 
+                        ))}                        
+                    </FilmWrapper>    
+                    {loadingRedux && <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center' }}><CircularProgress /></Box>}                
                 </div>     
                 <SpaceLine></SpaceLine>      
             </Container>

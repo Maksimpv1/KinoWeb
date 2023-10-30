@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 import { axiosApiConfig } from "../../api/axiosConfig"
+import { StoreType } from "../store/store";
 
 import { IfilmsData } from "./reducerstype";
 
 
 interface IinitialState{
+    filmsFetching:boolean,
+    filmsCurrentPage:number,
     films:Array<IfilmsData>,
     film:IfilmsData,
     loadingFilms:boolean,
@@ -15,6 +18,8 @@ interface IinitialState{
 }
 
 const initialState:IinitialState = {
+    filmsFetching:true,
+    filmsCurrentPage:1,
     films:[],
     loadingFilms:false,
     errorMes:'',
@@ -47,12 +52,15 @@ interface Iresponse {
 
 export const fetchFilms =  createAsyncThunk(
     "films/fetchPosts",
-    async (_, { dispatch, rejectWithValue }) => {
+    async (_, { dispatch, rejectWithValue, getState }) => {     
+        const state = getState() as StoreType;
+        if( state.films.filmsFetching ) {
         try{
             const limit =  20;
-            const response:Iresponse = await axiosApiConfig.get('/v1.3/movie' ,  { params: { limit } })
+            const response:Iresponse = await axiosApiConfig.get('/v1.3/movie' ,  { params: { limit , page: state.films.filmsCurrentPage } })
             const films = response.data.docs
-            dispatch(getFilms(films)) 
+            dispatch(getFilms(films))
+            dispatch(setNextFilmsPage())
         } catch (error: unknown) {
             if (error instanceof Error) {
               console.log((error as Error).message);
@@ -62,7 +70,12 @@ export const fetchFilms =  createAsyncThunk(
               return rejectWithValue("Unknown error occurred");
             }
           }
+          finally{
+            dispatch(setFetchingFilms())
+          }
+        }
     })
+
 
 export const searchFilms = createAsyncThunk(
     "films/searchfilms",
@@ -88,7 +101,7 @@ export const filmSlice = createSlice({
     initialState,
     reducers:{ 
         getFilms:(state, action) => {
-            state.films = action.payload
+            state.films = [...state.films, ...action.payload]
         },
         viewFilmCard: (state, action) => {
             if(state.renderfilmCard){
@@ -102,11 +115,15 @@ export const filmSlice = createSlice({
                   );
                 state.film = newFilm[0];
             }
-           
-            
         },
         setRenderFilmCard: (state,action) => {
             state.renderfilmCard = action.payload.renderValue
+        },
+        setFetchingFilms: (state) => {
+            state.filmsFetching ? state.filmsFetching = false : state.filmsFetching = true
+        },
+        setNextFilmsPage: (state) => {
+            state.filmsCurrentPage = state.filmsCurrentPage + 1
         }
     },
     extraReducers: (builder)=>
@@ -128,4 +145,4 @@ export const filmSlice = createSlice({
     })  
 })
 
-export const { getFilms,viewFilmCard,setRenderFilmCard } = filmSlice.actions
+export const { getFilms,viewFilmCard,setRenderFilmCard,setFetchingFilms,setNextFilmsPage } = filmSlice.actions

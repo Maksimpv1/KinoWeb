@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Films } from "./components/films/films";
@@ -15,19 +13,12 @@ import { Registration } from "./components/registration/registration";
 import { Search } from "./components/search/search";
 import { Footer } from "./components/ui/footer/footer";
 import { Header } from "./components/ui/header/header";
-import { fetchFilms } from "./redux/reducers/filmsReducer";
-import { AppDispatch } from "./redux/store/store";
 
 import "./App.css";
 
 function App() {
+
   
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    dispatch(fetchFilms());
-  }, []);
-
   return (
     <ThemeProvider>
       <Router>
