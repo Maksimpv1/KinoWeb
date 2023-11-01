@@ -1,8 +1,8 @@
 {
-  "homepage": "https://maksimpv1.github.io/KinoWeb",
   "name": "kinoweb-project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://maksimpv1.github.io/KinoWeb/",
   "dependencies": {
     "@emotion/is-prop-valid": "^1.2.1",
     "@emotion/react": "^11.11.1",
@@ -46,8 +46,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
