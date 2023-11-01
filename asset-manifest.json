@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/KinoWeb/static/css/main.006ef0c2.css",
-    "main.js": "/KinoWeb/static/js/main.a37bdcc8.js",
+    "main.js": "/KinoWeb/static/js/main.841bc80f.js",
     "static/js/787.ba3d709c.chunk.js": "/KinoWeb/static/js/787.ba3d709c.chunk.js",
     "static/media/headerBack.jpg": "/KinoWeb/static/media/headerBack.f93ff371caa1685fcc67.jpg",
     "static/media/blocksecond.png": "/KinoWeb/static/media/blocksecond.db7a2a9c71c6a544c05d.png",
@@ -17,11 +17,11 @@
     "static/media/blockfirst.png": "/KinoWeb/static/media/blockfirst.3abc7e21427a662f2c1d.png",
     "index.html": "/KinoWeb/index.html",
     "main.006ef0c2.css.map": "/KinoWeb/static/css/main.006ef0c2.css.map",
-    "main.a37bdcc8.js.map": "/KinoWeb/static/js/main.a37bdcc8.js.map",
+    "main.841bc80f.js.map": "/KinoWeb/static/js/main.841bc80f.js.map",
     "787.ba3d709c.chunk.js.map": "/KinoWeb/static/js/787.ba3d709c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.006ef0c2.css",
-    "static/js/main.a37bdcc8.js"
+    "static/js/main.841bc80f.js"
   ]
 }
