@@ -36,15 +36,17 @@ export const Registration = () => {
         dispatch(changeValueBurgerHandle({ value:false }))
     },[])
 
-    const handlerRegistration = (email:string, password:string)=>{
+    const handlerRegistration = (email:string, password:string , firstName:string , lastname:string )=>{
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
             .then(({ user })=>{
                 console.log(user)
+                const displayName = (firstName + ' ' + lastname) 
                 dispatch(setUser({
                     email:user.email,
                     id:user.uid,
                     token:user.refreshToken,
+                    displayName: user.displayName,
                 }))
                 navigate('/Login')
             })
@@ -83,14 +85,8 @@ export const Registration = () => {
                 }}            
                 validateOnBlur
                 onSubmit ={(values:IRegistration) => {
-                    handlerRegistration(values.email,values.password)
-                    alert(
-                    `
-                    Имя: ${values.firstName}
-                    Фамилия: ${values.lastName}
-                    Email: ${values.email}
-                    Пароль: ${values.password}`
-                )}}
+                    handlerRegistration(values.email,values.password, values.firstName, values.lastName )
+                    }}
                 validationSchema={ValidationsSchema}
                 >
         {({ values,errors,touched,handleChange, handleBlur,isValid,handleSubmit, dirty }) => (

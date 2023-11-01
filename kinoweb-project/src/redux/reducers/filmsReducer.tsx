@@ -18,7 +18,7 @@ interface IinitialState{
     favoritsFilms:Array<IFavoritsFilms>,
 }
 
-interface IFavoritsFilms {
+export interface IFavoritsFilms {
     id:string,
     title:string,
     author:{

@@ -5,7 +5,7 @@ import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { ThemeContext } from "styled-components";
 
 import { dbFirebase } from "../../firebase";
-import { getFavoritFilm } from "../../redux/reducers/filmsReducer";
+import { getFavoritFilm,IFavoritsFilms } from "../../redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "../../redux/store/store";
 import { FilmWrapper } from "../films/fimsComponents/filmComponentsStyled";
 import { FilmFront } from "../films/fimsComponents/filmFrontCard";
@@ -19,10 +19,12 @@ import { FavoritsFilmstitle } from "./profileStyles";
 export const Profile = () =>{
 
     const [postLists, setPostList] = useState<any>([]);
+    const [ profileFavoritFilms , getProfFavFilms] = useState<any>([])
 
     const favoritsCollection = collection(dbFirebase,"favorits")
 
     const favoritsFilms = useAppSelectorType((state) => state.films.favoritsFilms)
+    const authUser = useAppSelectorType((state) => state.auth.email )
 
     const { isAuth, email } = useAuth();
 
@@ -38,7 +40,11 @@ export const Profile = () =>{
 
       }, []);
       const handleClick = () => {
-        console.log(postLists);
+        const authListFavFilms = postLists.filter(
+            (item:IFavoritsFilms) => item.author.email === authUser 
+        )
+        getProfFavFilms(authListFavFilms)
+        profileFavoritFilms  ? console.log(profileFavoritFilms) : console.log("ещё не пришли");
       };
     
     return isAuth ? (

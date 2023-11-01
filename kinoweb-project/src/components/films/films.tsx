@@ -64,9 +64,9 @@ export const Films = () => {
                 <SpaceLine></SpaceLine>
                 <div style={{ padding:'20px' }}>
                     <FilmWrapper>
-                        {filmsData.map((item)=>(
+                        {filmsData.map((item, index)=>(
                             <FilmFront 
-                            key={item.id} 
+                            key={index} 
                             id={item.id}
                             poster={item.poster.previewUrl} 
                             filmTitle={item.alternativeName}
