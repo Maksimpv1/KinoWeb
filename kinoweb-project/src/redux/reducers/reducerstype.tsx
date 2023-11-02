@@ -4,13 +4,14 @@ export interface IinitialState {
 }
 
 export interface IinitialStateAuth {
-    firstName:string | null,
-    lastName:string | null,
+    user: IUser,    
+    logState: boolean,
+}
+export interface IUser {
     email:string | null,
     password:string | null,
     token:string | null,
-    id: number | null,
-    logState: boolean,
+    uid: any,
 }
 
 export interface IfilmsData {

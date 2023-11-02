@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom"
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { ThemeContext } from "styled-components";
 
-import { dbFirebase } from "../../firebase";
+import { auth, dbFirebase } from "../../firebase";
+import { setUser } from "../../redux/reducers/authorisation";
 import { getFavoritFilm,IFavoritsFilms } from "../../redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "../../redux/store/store";
 import { FilmWrapper } from "../films/fimsComponents/filmComponentsStyled";
@@ -24,22 +26,24 @@ export const Profile = () =>{
     const favoritsCollection = collection(dbFirebase,"favorits")
 
     const favoritsFilms = useAppSelectorType((state) => state.films.favoritsFilms)
-    const authUser = useAppSelectorType((state) => state.auth.email )
+    const authUser = useAppSelectorType((state) => state.auth.user.email )
+    const authUserInfo = useAppSelectorType((state) => state.auth.user )
 
     const { isAuth, email } = useAuth();
 
     const dispatch = useDispatch<AppDispatch>()
 
-        useEffect(() => {
-          const getFavFilms = async() => {
-            const data = await getDocs(favoritsCollection);
-            setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-            dispatch(getFavoritFilm(postLists))
-          }
-          getFavFilms()
+    useEffect(() => {
+        const getFavFilms = async() => {
+        const data = await getDocs(favoritsCollection);
+        setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        dispatch(getFavoritFilm(postLists))
+        }
+        getFavFilms()
 
-      }, []);
+    }, []);
       const handleClick = () => {
+        console.log(authUserInfo)
         const authListFavFilms = postLists.filter(
             (item:IFavoritsFilms) => item.author.email === authUser 
         )

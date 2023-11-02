@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react"
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { TextField } from "@mui/material";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Formik,  } from "formik"
@@ -8,7 +8,7 @@ import * as yup from 'yup';
 
 import { loginStateSwitch, setUser } from "../../redux/reducers/authorisation";
 import { changeValueBurgerHandle } from "../../redux/reducers/burgerReduser";
-import { AppDispatch } from "../../redux/store/store";
+import { AppDispatch, useAppSelectorType } from "../../redux/store/store";
 import { SpaceLine } from "../mainblock/mainBlockStyles";
 import { ThemeContext } from "../providers/themeProvider";
 import { BanerContainer, BanerShadow, Container, MainTitle, MainTitleblock, Wrapper } from "../shared/styledComponents";
@@ -29,6 +29,8 @@ export const LoginForm = () => {
 
     const dispatch = useDispatch<AppDispatch>();
 
+    const loginState = useAppSelectorType((state) => state.auth.logState)
+
     useEffect(()=>{
         dispatch(changeValueBurgerHandle({ value:false }))
     },[])
@@ -37,13 +39,12 @@ export const LoginForm = () => {
         const auth = getAuth();
         signInWithEmailAndPassword(auth, email, password)
             .then(({ user })=>{
-                console.log(user)
                 dispatch(setUser({
                     email:user.email,
-                    id:user.uid,
+                    uid:user.uid,
                     token:user.refreshToken,
                 }))
-                dispatch(loginStateSwitch())
+                dispatch(loginStateSwitch({ LogStateBol:true }))
                 navigate('/Profile')
             })
             .catch(() => alert("invalid user"))
@@ -53,7 +54,7 @@ export const LoginForm = () => {
         password: yup.string().typeError('Должно быть строкой').required('Обязательное поле').min(8,'Min 8 symbols'),
         email: yup.string().email('Введите верный Email').required('Обязательное поле'),
     })
-    return(
+    return  !loginState ? (
         <Container colorbg = {themes.BACKGROUND_THEME}>
             <BanerContainer backimage={imgBack}>
                 <BanerShadow>
@@ -120,5 +121,7 @@ export const LoginForm = () => {
             </Wrapper>
             <SpaceLine></SpaceLine>
         </Container>
+    ) : (
+        <Navigate to="/Profile"/>
     )
 }

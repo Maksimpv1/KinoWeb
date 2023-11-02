@@ -20,7 +20,10 @@ interface IinitialState{
 
 export interface IFavoritsFilms {
     id:string,
-    title:string,
+    favorits:Array<{
+        id:number,
+        title:string,
+    }>
     author:{
         id:string,
         email:string,

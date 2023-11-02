@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IinitialStateAuth } from "./reducerstype";
 
 const initialState:IinitialStateAuth = {
-    firstName:'',
-    lastName:'',
-    email:'',
-    password:'',
-    token:null,
-    id: null,
-    logState: false,
+    user: {
+        email: '',
+        password: '',
+        token: '',
+        uid: '',
+    },
+    logState:false,
 }
 
 export const authSlice = createSlice({
@@ -17,23 +17,19 @@ export const authSlice = createSlice({
     initialState,
     reducers:{
         setUser:(state,action)=> {
-            state.firstName = action.payload.firstName
-            state.lastName = action.payload.lastName
-            state.email = action.payload.email
-            state.password = action.payload.password
-            state.token = action.payload.token
-            state.id = action.payload.id
+            state.user.email = action.payload.email
+            state.user.password = action.payload.password
+            state.user.token = action.payload.token
+            state.user.uid = action.payload.id
         },
         removeUser:(state)=>{
-            state.firstName = null
-            state.lastName = null
-            state.email = null
-            state.password = null
-            state.token = null
-            state.id = null
+            state.user.email = ''
+            state.user.password = ''
+            state.user.token = ''
+            state.user.uid = ''
         },
-        loginStateSwitch:(state)=>{
-            state.logState = !state.logState
+        loginStateSwitch:(state, action)=>{
+            state.logState = action.payload.LogStateBol
         },
     }
 })

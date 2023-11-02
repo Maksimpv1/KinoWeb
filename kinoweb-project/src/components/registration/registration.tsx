@@ -44,7 +44,7 @@ export const Registration = () => {
                 const displayName = (firstName + ' ' + lastname) 
                 dispatch(setUser({
                     email:user.email,
-                    id:user.uid,
+                    uid:user.uid,
                     token:user.refreshToken,
                     displayName: user.displayName,
                 }))

@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
-import { loginStateSwitch, removeUser } from "../../../redux/reducers/authorisation";
+import { auth } from "../../../firebase";
+import { loginStateSwitch, removeUser, setUser } from "../../../redux/reducers/authorisation";
 import {  AppDispatch, useAppSelectorType } from "../../../redux/store/store";
 import { ThemeContext } from "../../providers/themeProvider";
 
@@ -21,6 +23,7 @@ export const Header = () => {
   const [loginText, setLoginText] = useState<string>('Login');
 
   const loginState = useAppSelectorType((state)=>state.auth.logState)
+  const userAuth = useAppSelectorType((state) => state.auth.user)
 
   useEffect(()=>{
     if(loginState === true ){
@@ -30,10 +33,35 @@ export const Header = () => {
     }
   },)
 
-  const handleLogin = () => {
-    if(loginState === true){      
-      dispatch(loginStateSwitch())
-      dispatch(removeUser())
+  
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user){
+          dispatch(setUser({
+              email:user.email,
+              uid:user.uid,
+              token:user.refreshToken,
+          }))
+          console.log('Пользователь вошел')
+          dispatch(loginStateSwitch( { LogStateBol: true } ))
+      }else {
+        dispatch(removeUser());
+        console.log("Пользователь вышел")
+        dispatch(loginStateSwitch( { LogStateBol: false } ))
+      }
+  });
+  },[])
+
+
+  const handleLogin =  async () => {
+    try {
+      await auth.signOut();
+      if (loginState === true) {
+        dispatch(loginStateSwitch(false));
+        dispatch(removeUser());
+      }
+    } catch (error) {
+      console.error('Ошибка при разлогинивании:', error);
     }
   }
 
