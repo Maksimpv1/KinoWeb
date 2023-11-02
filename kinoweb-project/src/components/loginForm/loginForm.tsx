@@ -35,20 +35,22 @@ export const LoginForm = () => {
         dispatch(changeValueBurgerHandle({ value:false }))
     },[])
 
-    const handlerLogin = (email:string, password:string)=>{
+    const handlerLogin = (email: string, password: string) => {
         const auth = getAuth();
         signInWithEmailAndPassword(auth, email, password)
-            .then(({ user })=>{
-                dispatch(setUser({
-                    email:user.email,
-                    uid:user.uid,
-                    token:user.refreshToken,
-                }))
-                dispatch(loginStateSwitch({ LogStateBol:true }))
-                navigate('/Profile')
-            })
-            .catch(() => alert("invalid user"))
-    }
+          .then(({ user }) => {
+            dispatch(
+              setUser({
+                email: user.email,
+                uid: user.uid, 
+                token: user.refreshToken,
+              })
+            );
+            dispatch(loginStateSwitch({ LogStateBol: true }));
+            navigate('/Profile');
+          })
+          .catch(() => alert('Неверный пользователь'));
+      };
 
     const ValidationsSchema = yup.object().shape({
         password: yup.string().typeError('Должно быть строкой').required('Обязательное поле').min(8,'Min 8 symbols'),

@@ -11,7 +11,7 @@ export interface IUser {
     email:string | null,
     password:string | null,
     token:string | null,
-    uid: any,
+    uid: string,
 }
 
 export interface IfilmsData {
