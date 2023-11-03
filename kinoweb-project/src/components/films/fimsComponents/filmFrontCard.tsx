@@ -20,48 +20,32 @@ export const FilmFront = (props:IFilmFront) => {
 
     const [noneUserValue, setNoneUserValue] = useState<boolean>(false)
 
-    const favFims = useAppSelectorType((state) => state.films.favoritsFilms)
+    const favFims = useAppSelectorType((state) => state.films.favoritsFilms.favorits)
     const loginState = useAppSelectorType((state) => state.auth.logState)
     const authUser = useAppSelectorType((state) => state.auth.user.email )
+    const user = useAppSelectorType((state) => state.auth.user)
 
     const favoritsCollection = collection(dbFirebase, "favorits")
 
-    const userUid = useAppSelectorType((state) => state.auth.user.uid)
+   // const inFIlmslist = favFims.includes(props.id);
 
     const addToFavorits = async () => {
-        setNoneUserValue(false)
-        if(favFims){
-            favFims.forEach(async (item:any)=>{
-            if(item.author.email === authUser ){
-                console.log('hi')
-                if (userUid){
-                    const documentRef = doc(dbFirebase, "favorits", userUid)
-                    await setDoc(documentRef,  {
-                        favorits:[...item.favorits, { title:props.filmTitle, id: props.id } ]
-                    })
+        const filmsRef = doc(dbFirebase, "favorits" , user.uid)
+        try{
+            await setDoc(
+                filmsRef, 
+                {
+                    favorits: favFims ?
+                    [ ...favFims , { id:props.id, title: props.filmTitle } ]
+                    : [ { id:props.id, title: props.filmTitle } ]
+                    
                 }
-            }else{
-                setNoneUserValue(true)
-            }
-            })
+            )
+            console.log("Вроде отработало но нет")
+        }catch(error){
+            console.log("Ошибка добавления фильма")
         }
-        if(noneUserValue){
-            await addDoc(favoritsCollection , {
-                id:props.id.toString(),
-                favorits:[{
-                    title:props.filmTitle,
-                    id: props.id,
-                }],
-                author: { email: auth.currentUser?.email, id: auth.currentUser?.uid }
-            });
-            console.log('Добавлен ' + props.id)
-        }
-    }
-    // const deleteFilm = async (id: string) => {
-    //     const userDoc = doc(dbFirebase, "favorits", id);
-    //     await deleteDoc(userDoc);
-    //     console.log(userUid)
-    // }
+    } 
     return( 
         <CardWrapper key={props.id}>
             <div>

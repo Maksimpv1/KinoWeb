@@ -15,23 +15,25 @@ interface IinitialState{
     errorMes:string | null | unknown,
     searchfilms:Array<IfilmsData>,
     renderfilmCard:boolean,
-    favoritsFilms:Array<IFavoritsFilms>,
+    favoritsFilms:IFavoritsFilms,
 }
 
 export interface IFavoritsFilms {
-    id:string,
+    id?:string,
     favorits:Array<{
         id:number,
         title:string,
     }>
-    author:{
+    author?:{
         id:string,
         email:string,
     }
 }
 
 const initialState:IinitialState = {
-    favoritsFilms:[],
+    favoritsFilms: {
+        favorits:[]
+    },
     filmsFetching:true,
     filmsCurrentPage:1,
     films:[],
@@ -93,7 +95,7 @@ export const fetchFilms =  createAsyncThunk(
 
 export const searchFilms = createAsyncThunk(
     "films/searchfilms",
-    async(searchedValue:string,{ dispatch, rejectWithValue }) => {
+    async(searchedValue:string,{  rejectWithValue }) => {
         try{
             const response:Iresponse = await axiosApiConfig.get('/v1.3/movie' , { params: { name: searchedValue, limit: 20 } })
             const gotFilms = response.data.docs
@@ -140,7 +142,9 @@ export const filmSlice = createSlice({
             state.filmsCurrentPage = state.filmsCurrentPage + 1
         },
         getFavoritFilm: (state, action) => {
-            state.favoritsFilms = action.payload.favFilms
+            //state.favoritsFilms.favorits.id = action.payload.favFilms.id
+            console.log(action.payload)
+            state.favoritsFilms.favorits = action.payload.filmData.favorits
         },
     },
     extraReducers: (builder)=>

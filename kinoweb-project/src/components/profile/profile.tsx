@@ -33,22 +33,31 @@ export const Profile = () =>{
 
     const dispatch = useDispatch<AppDispatch>()
 
-    useEffect(() => {
-        const getFavFilms = async() => {
-        const data = await getDocs(favoritsCollection);
-        setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        dispatch(getFavoritFilm(postLists))
-        }
-        getFavFilms()
+    const user = useAppSelectorType((state) => state.auth.user)
+    const logState = useAppSelectorType((state) => state.auth.logState)
 
-    }, []);
+    useEffect(() => {
+        if(logState){
+            const filmsRef = doc(dbFirebase, "favorits", user?.uid)
+            const getFavData = onSnapshot(filmsRef, (film) =>{
+                if(film.exists()){
+                    const filmData = film.data()
+                    dispatch(getFavoritFilm({ filmData }))
+                    console.log("Документ пришёл")
+                    console.log(filmData)
+                    
+                }else{
+                    console.log("No Items in db");
+                }
+            })
+            return () => {
+                getFavData();
+            }
+        }
+
+    }, [logState]);
       const handleClick = () => {
-        console.log(authUserInfo)
-        const authListFavFilms = postLists.filter(
-            (item:IFavoritsFilms) => item.author.email === authUser 
-        )
-        getProfFavFilms(authListFavFilms)
-        profileFavoritFilms  ? console.log(profileFavoritFilms) : console.log("ещё не пришли");
+        console.log(favoritsFilms)
       };
     
     return isAuth ? (
