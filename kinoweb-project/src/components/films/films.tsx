@@ -23,7 +23,6 @@ export const Films = () => {
     const filmsData = useAppSelectorType((state)=>state.films.films )
     const loadingRedux = useAppSelectorType((state) => state.films.loadingFilms)
     const errorRedux = useAppSelectorType((state) => state.films.errorMes)
-    const fetchingValue = useAppSelectorType((state) => state.films.filmsFetching)
 
     const handleScroll = () => {
         const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
@@ -41,10 +40,6 @@ export const Films = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     },[])
-
-    useEffect(() => {
-        dispatch(fetchFilms())
-    },[fetchingValue])
 
 
 

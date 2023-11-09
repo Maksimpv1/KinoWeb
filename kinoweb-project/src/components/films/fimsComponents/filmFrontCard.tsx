@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { NavLink } from "react-router-dom"
-import { doc, onSnapshot, setDoc } from "firebase/firestore"
+import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore"
 
 import {  dbFirebase } from "../../../firebase"
 import { getFavoritFilm } from "../../../redux/reducers/filmsReducer"
@@ -41,14 +41,14 @@ export const FilmFront = (props:IFilmFront) => {
         } else {
             setInFIlmslist(false)
         }
-    },[])
+    },[favFims])
 
     
     const addToFavorits = async () => {
         const filmsRef = doc(dbFirebase, "favorits" , user.uid)
         try{
             setInFIlmslist(true)
-            await setDoc(
+            await updateDoc(
                 filmsRef, 
                 {
                     favorits: favFims ?
@@ -62,6 +62,18 @@ export const FilmFront = (props:IFilmFront) => {
             console.log("Ошибка добавления фильма")
         }
     } 
+
+    const deleteFavorits = async () => {
+        const filmsRef = doc(dbFirebase, "favorits" , user.uid)
+        try{
+            await setDoc(
+                filmsRef,
+                { favorits: favFims.filter((item) => item.id !== props.id) },
+              );
+        }catch(error){
+            console.log("Ошибка Удаления")
+        }
+    }
     return( 
         <CardWrapper key={props.id}>
             <div>
@@ -77,7 +89,10 @@ export const FilmFront = (props:IFilmFront) => {
                 >
                     <PreviewButton>View film</PreviewButton>
                 </NavLink>
-                <PreviewIconWrap onClick={addToFavorits} enabled={loginState} disabled={!loginState} >
+                <PreviewIconWrap 
+                onClick={inFIlmslist ? deleteFavorits : addToFavorits} 
+                enabled={loginState} 
+                disabled={!loginState} >
                     <img style={{ width:'25px' }} src={inFIlmslist ? deleteIcon : saveIcon }></img>
                 </PreviewIconWrap>
             </PreviewBtnsWrappper>       

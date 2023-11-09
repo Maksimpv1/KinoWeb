@@ -31,29 +31,6 @@ export const Profile = () =>{
 
     const dispatch = useDispatch<AppDispatch>()
 
-    const user = useAppSelectorType((state) => state.auth.user)
-    const logState = useAppSelectorType((state) => state.auth.logState)
-
-    useEffect(() => {
-        if(logState){
-            const filmsRef = doc(dbFirebase, "favorits", user?.uid)
-            const getFavData = onSnapshot(filmsRef, (film) =>{
-                if(film.exists()){
-                    const filmData = film.data()
-                    dispatch(getFavoritFilm({ filmData }))
-                    console.log("Документ пришёл")
-                    console.log(filmData.favorits)
-                    
-                }else{
-                    console.log("No Items in db");
-                }
-            })
-            return () => {
-                getFavData();
-            }
-        }
-
-    }, [logState]);
 
     useEffect(() => {
         dispatch(fetchFilms())

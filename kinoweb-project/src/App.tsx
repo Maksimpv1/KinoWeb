@@ -1,4 +1,7 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { doc, onSnapshot } from "firebase/firestore";
 
 import { Films } from "./components/films/films";
 import { Film } from "./components/films/fimsComponents/film";
@@ -13,10 +16,44 @@ import { Registration } from "./components/registration/registration";
 import { Search } from "./components/search/search";
 import { Footer } from "./components/ui/footer/footer";
 import { Header } from "./components/ui/header/header";
+import { fetchFilms, getFavoritFilm } from "./redux/reducers/filmsReducer";
+import { AppDispatch, useAppSelectorType } from "./redux/store/store";
+import { dbFirebase } from "./firebase";
 
 import "./App.css";
 
 function App() {
+
+  const dispatch = useDispatch<AppDispatch>()
+
+  const fetchingValue = useAppSelectorType((state) => state.films.filmsFetching)
+  const logState = useAppSelectorType((state) => state.auth.logState)
+  const user = useAppSelectorType((state) => state.auth.user)
+  
+    useEffect(() => {
+      dispatch(fetchFilms())
+  },[fetchingValue])
+
+  useEffect(() => {
+    if(logState){
+        const filmsRef = doc(dbFirebase, "favorits", user?.uid)
+        const getFavData = onSnapshot(filmsRef, (film) =>{
+            if(film.exists()){
+                const filmData = film.data()
+                dispatch(getFavoritFilm({ filmData }))
+                console.log("Документ пришёл")
+                console.log(filmData.favorits)
+                
+            }else{
+                console.log("No Items in db");
+            }
+        })
+        return () => {
+            getFavData();
+        }
+    }
+
+}, [logState]);
 
   
   return (
