@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 
 import { axiosApiConfig } from "../../api/axiosConfig"
+import { dbFirebase } from "../../firebase";
 import { StoreType } from "../store/store";
 
 import { IfilmsData } from "./reducerstype";
@@ -112,6 +114,39 @@ export const searchFilms = createAsyncThunk(
             }
     }
     })
+
+    export const addFilmsToFavorits = createAsyncThunk(
+        "films/addFilmsToFav",
+        async(film: { id: number; filmTitle: string }, { getState }) => {
+            const state = getState() as StoreType;
+            const filmsRef = doc(dbFirebase, 'favorits', state.auth.user.uid);
+            try{
+                await updateDoc(filmsRef, {
+                    favorits: state.films.favoritsFilms.favorits
+                    ? [...state.films.favoritsFilms.favorits, { id: film.id, title: film.filmTitle }]
+                    : [{ id: film.id, title: film.filmTitle }],
+                });
+                console.log('Фильм успешно добавлен в избранное');
+            }catch (error: unknown) {
+                console.log("Ошибка добавления фильма")
+            }     }
+    )
+
+    export const deleteFilmsFromFavorits = createAsyncThunk(
+        "films/deleteFilmsFromFav",
+        async(film: {id: number } , { getState }) => {
+            const state = getState() as StoreType;
+            const filmsRef = doc(dbFirebase, 'favorits', state.auth.user.uid);
+            try{
+                await setDoc(
+                    filmsRef,
+                    { favorits: state.films.favoritsFilms.favorits.filter((item) => item.id !== film.id) },
+                  );
+            }catch(error: unknown){
+                console.log("Ошибка Удаления")
+            }
+        }
+    )
 
 
 export const filmSlice = createSlice({
