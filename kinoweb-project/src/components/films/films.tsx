@@ -1,10 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Box, CircularProgress } from "@mui/material";
-import { doc, setDoc } from "firebase/firestore";
 
-import { dbFirebase } from "../../firebase";
-import { fetchFilms, setFetchingFilms, setRenderFilmCard } from "../../redux/reducers/filmsReducer";
+import { setFetchingFilms, setRenderFilmCard } from "../../redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "../../redux/store/store"
 import { SpaceLine } from "../mainblock/mainBlockStyles";
 import { ThemeContext } from "../providers/themeProvider";

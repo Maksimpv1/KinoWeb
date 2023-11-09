@@ -20,7 +20,7 @@ export const ProfileFavorite = (props:IFilmFront) => {
     const loginState = useAppSelectorType((state) => state.auth.logState)
     const favFims = useAppSelectorType((state) => state.films.favoritsFilms.favorits)
 
-    const { isAuth, email } = useAuth();
+    const { isAuth } = useAuth();
 
     useEffect(()=>{
         if(isAuth){

@@ -1,11 +1,12 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { viewFilmCard } from "../../../redux/reducers/filmsReducer";
+import { addFilmsToFavorits, deleteFilmsFromFavorits, viewFilmCard } from "../../../redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "../../../redux/store/store";
 import { SpaceLine } from "../../mainblock/mainBlockStyles";
 import { ThemeContext } from "../../providers/themeProvider";
+import { useAuth } from "../../registration/auth";
 import { BanerContainer, BanerShadow, Container, MainTitle, MainTitleblock } from "../../shared/styledComponents";
 
 import imgBack from "./img/banner.jpg"
@@ -23,8 +24,30 @@ export const Film = () => {
     },[])
 
     const filmData = useAppSelectorType((state) =>  state.films.film )
+    const loginState = useAppSelectorType((state) => state.auth.logState)
+    const favFims = useAppSelectorType((state) => state.films.favoritsFilms.favorits)
 
     const paramss = useParams();
+
+    const [inFIlmslist, setInFIlmslist] = useState<boolean>(false)
+
+    const { isAuth } = useAuth();
+
+    useEffect(()=>{
+        if(isAuth){
+            setInFIlmslist(favFims.some((item) => item.id === filmData.id)) 
+        } else {
+            setInFIlmslist(false)
+        }
+    },[favFims])
+
+    const addToFavorits = async () => {
+         dispatch(addFilmsToFavorits(filmData))
+     } 
+
+    const deleteFavorits = async () => {
+        dispatch(deleteFilmsFromFavorits(filmData))
+    }
     
     return (
         <Container colorbg = {themes.BACKGROUND_THEME}>
@@ -56,7 +79,8 @@ export const Film = () => {
                                     <FilmGenresTitle>Released: </FilmGenresTitle>
                                         <FilmGenresListProp> {filmData.year}</FilmGenresListProp>
                                 </FilmGenresList>
-                                <FilmAddFavorits>Add to Favorits</FilmAddFavorits>
+                                <FilmAddFavorits onClick={ inFIlmslist ? deleteFavorits : addToFavorits}>
+                                { inFIlmslist ? "Delete from Favorits" : "Add to Favorits"}</FilmAddFavorits>
                             </FilmMainRight>
                         </FilmMain>
                         <FilmGenresList>

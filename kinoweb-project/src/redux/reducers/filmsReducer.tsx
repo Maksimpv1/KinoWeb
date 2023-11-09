@@ -128,7 +128,7 @@ export const searchFilms = createAsyncThunk(
                 });
                 console.log('Фильм успешно добавлен в избранное');
             }catch (error: unknown) {
-                console.log("Ошибка добавления фильма")
+                console.log("Ошибка добавления фильма - " + error )
             }     }
     )
 

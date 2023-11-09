@@ -1,10 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom"
-import { Box, CircularProgress } from "@mui/material";
-import { doc, onSnapshot } from "firebase/firestore";
 
-import { dbFirebase } from "../../firebase";
 import { fetchFilms, getFavoritFilm,IFavoritsFilms } from "../../redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "../../redux/store/store";
 import { FilmWrapper } from "../films/fimsComponents/filmComponentsStyled";
@@ -20,9 +17,6 @@ import { FavoritsFilmstitle } from "./profileStyles";
 export const Profile = () =>{
 
     const themes = useContext(ThemeContext);
-
-    const [postLists, setPostList] = useState<any>([]);
-    const [ profileFavoritFilms , getProfFavFilms] = useState<any>([])
 
     const favoritsFilms = useAppSelectorType((state) => state.films.rendFilms)
     const fetchingValue = useAppSelectorType((state) => state.films.filmsFetching)
@@ -51,6 +45,7 @@ export const Profile = () =>{
             <SpaceLine></SpaceLine>
                 <div style={{ padding:'20px' }}>
                     <FilmWrapper>
+                        <FavoritsFilmstitle>Email: {email}</FavoritsFilmstitle>
                         <FavoritsFilmstitle>Favorits Films:</FavoritsFilmstitle>
                         {favoritsFilms.map((item, index)=>(
                             <ProfileFavorite 
