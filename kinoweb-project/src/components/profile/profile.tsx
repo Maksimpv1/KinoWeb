@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom"
 
-import { fetchFilms, getFavoritFilm,IFavoritsFilms } from "../../redux/reducers/filmsReducer";
+import { fetchFilms, getFavoritFilm,IFavoritsFilms, profilFilmFetch } from "../../redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "../../redux/store/store";
 import { FilmWrapper } from "../films/fimsComponents/filmComponentsStyled";
 import { SpaceLine } from "../mainblock/mainBlockStyles";
@@ -20,15 +20,17 @@ export const Profile = () =>{
 
     const favoritsFilms = useAppSelectorType((state) => state.films.rendFilms)
     const fetchingValue = useAppSelectorType((state) => state.films.filmsFetching)
+    const favFims = useAppSelectorType((state) => state.films.favoritsFilms.favorits)
 
     const { isAuth, email } = useAuth();
 
     const dispatch = useDispatch<AppDispatch>()
 
-
-    useEffect(() => {
-        dispatch(fetchFilms())
-    },[fetchingValue])
+    // useEffect(()=>{
+    //     favFims.map((item)=>(
+    //         dispatch(profilFilmFetch(item))
+    //     ))
+    // },[])
     
     return isAuth ? (
         
