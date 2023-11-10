@@ -141,9 +141,22 @@ export const searchFilms = createAsyncThunk(
                 await setDoc(
                     filmsRef,
                     { favorits: state.films.favoritsFilms.favorits.filter((item) => item.id !== film.id) },
-                  );
+                  );                 
             }catch(error: unknown){
                 console.log("Ошибка Удаления")
+            }
+        }
+    )
+
+    export const profilFilmFetch = createAsyncThunk(
+        "film/favoritFilms",
+        async(film: { id: number, title:string } , { dispatch }) => {
+            try{
+                const response:Iresponse = await axiosApiConfig.get('/v1.3/movie' , { params: { id: film.id } })
+                const films = response.data.docs
+                dispatch(renderProfilFilms(films))
+            }catch{
+                console.log('Ошибка при вызове фильмов в профиль')
             }
         }
     )
@@ -180,11 +193,17 @@ export const filmSlice = createSlice({
         },
         getFavoritFilm: (state, action) => {
             state.favoritsFilms.favorits = action.payload.filmData.favorits
-            
+
             const rendFimls = state.films.filter(
                 (item) => action.payload.filmData.favorits.some((filmId:any) => filmId.id === item.id)
             )
             state.rendFilms = rendFimls
+        },
+        renderProfilFilms: (state, action) => {
+            state.rendFilms = [...state.rendFilms, action.payload[0] ]
+        },
+        renderVelueNulled: (state) => {
+            state.rendFilms = []
         },
     },
     extraReducers: (builder)=>
@@ -212,4 +231,6 @@ export const {
     setRenderFilmCard,
     setFetchingFilms,
     setNextFilmsPage,
+    renderProfilFilms,
+    renderVelueNulled,
     getFavoritFilm } = filmSlice.actions

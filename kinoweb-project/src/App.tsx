@@ -16,7 +16,7 @@ import { Registration } from "./components/registration/registration";
 import { Search } from "./components/search/search";
 import { Footer } from "./components/ui/footer/footer";
 import { Header } from "./components/ui/header/header";
-import { fetchFilms, getFavoritFilm } from "./redux/reducers/filmsReducer";
+import { fetchFilms, getFavoritFilm, profilFilmFetch, renderVelueNulled } from "./redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "./redux/store/store";
 import { dbFirebase } from "./firebase";
 
@@ -29,10 +29,18 @@ function App() {
   const fetchingValue = useAppSelectorType((state) => state.films.filmsFetching)
   const logState = useAppSelectorType((state) => state.auth.logState)
   const user = useAppSelectorType((state) => state.auth.user)
+  const favFilms = useAppSelectorType((state) => state.films.favoritsFilms.favorits)
   
     useEffect(() => {
       dispatch(fetchFilms())
   },[fetchingValue])
+  
+  useEffect(() => {
+    dispatch(renderVelueNulled())
+    favFilms.map((item)=>(
+      dispatch(profilFilmFetch(item))
+    ))
+  },[favFilms])
 
   useEffect(() => {
     if(logState){
