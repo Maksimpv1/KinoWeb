@@ -119,7 +119,8 @@ export const searchFilms = createAsyncThunk(
         "films/addFilmsToFav",
         async(film: { id: number; filmTitle: string }, { getState }) => {
             const state = getState() as StoreType;
-            const filmsRef = doc(dbFirebase, 'favorits', state.auth.user.uid);
+            const filmsRef = doc(dbFirebase, 'favorits', state.auth.user.uid);            
+            console.log(state.films.favoritsFilms.favorits)
             try{
                 await updateDoc(filmsRef, {
                     favorits: state.films.favoritsFilms.favorits
@@ -160,6 +161,19 @@ export const searchFilms = createAsyncThunk(
             }
         }
     )
+    export const soloFilmCardFetch = createAsyncThunk(
+        "film/soloFilmCardFetch",
+        async(filmId: number , { dispatch }) => {
+            try{
+                const response:Iresponse = await axiosApiConfig.get('/v1.3/movie' , { params: { id: filmId } })
+                const film = response.data.docs
+                console.log(film)
+                dispatch(viewFilmCard(film))
+            }catch{
+                console.log('Ошибка при вызове фильмов в профиль')
+            }
+        }
+    )
 
 
 export const filmSlice = createSlice({
@@ -170,17 +184,7 @@ export const filmSlice = createSlice({
             state.films = [...state.films, ...action.payload]
         },
         viewFilmCard: (state, action) => {
-            if(state.renderfilmCard){
-                const newFilm = state.films.filter(
-                    (item) => item.id == action.payload.filmId                
-                  );
-                state.film = newFilm[0];
-            } else {
-                const newFilm = state.searchfilms.filter(
-                    (item) => item.id == action.payload.filmId                
-                  );
-                state.film = newFilm[0];
-            }
+            state.film = action.payload
         },
         setRenderFilmCard: (state,action) => {
             state.renderfilmCard = action.payload.renderValue
