@@ -184,7 +184,7 @@ export const FilmGenresListProp = styled.li`
     text-align: justify;
 `;
 
-export const FilmAddFavorits = styled.button`
+export const FilmAddFavorits = styled.button<loginState>`
     width: 200px;
     height: 80px;
     border: #FFFFFF 2px solid;
@@ -194,6 +194,7 @@ export const FilmAddFavorits = styled.button`
     font-size: 26px;
     margin-bottom: 20px;
     transition: 0.3s ease-in-out;
+    cursor: ${props => props.enabled ? 'pointer' : 'not-allowed'};
     &:hover{
         background-color: #FFFFFF21;
         transition: 0.3s ease-in-out;

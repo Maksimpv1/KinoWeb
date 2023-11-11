@@ -12,13 +12,14 @@ interface IinitialState{
     filmsFetching:boolean,
     filmsCurrentPage:number,
     films:Array<IfilmsData>,
-    film:IfilmsData,
+    film:Array<IfilmsData>,
     rendFilms:Array<IfilmsData>,
     loadingFilms:boolean,
     errorMes:string | null | unknown,
     searchfilms:Array<IfilmsData>,
     renderfilmCard:boolean,
     favoritsFilms:IFavoritsFilms,
+    loadingSoloFilm:boolean,
 }
 
 export interface IFavoritsFilms {
@@ -42,10 +43,12 @@ const initialState:IinitialState = {
     films:[],
     rendFilms:[],
     loadingFilms:false,
+    loadingSoloFilm:false,
     errorMes:'',
     renderfilmCard:false,
     searchfilms:[],
-    film:{
+    film:[
+        {
         id: 0,
         filmTitle: '',
         altFilmName:'',
@@ -62,7 +65,7 @@ const initialState:IinitialState = {
         logo:{
             url:'',
         },
-    },
+        }],
 }
 interface Iresponse {
     data:{
@@ -117,14 +120,15 @@ export const searchFilms = createAsyncThunk(
 
     export const addFilmsToFavorits = createAsyncThunk(
         "films/addFilmsToFav",
-        async(film: { id: number; filmTitle: string }, { getState }) => {
+        async(film: { id: number; filmTitle: string ; name?: string }, { getState }) => {
             const state = getState() as StoreType;
-            const filmsRef = doc(dbFirebase, 'favorits', state.auth.user.uid);
+            const filmsRef = doc(dbFirebase, 'favorits', state.auth.user.uid);      
             try{
                 await updateDoc(filmsRef, {
                     favorits: state.films.favoritsFilms.favorits
-                    ? [...state.films.favoritsFilms.favorits, { id: film.id, title: film.filmTitle }]
-                    : [{ id: film.id, title: film.filmTitle }],
+                    ? [...state.films.favoritsFilms.favorits, { id: film.id,
+                         title: film.filmTitle ? film.filmTitle : film.name }]
+                    : [{ id: film.id, title: film.filmTitle ? film.filmTitle : film.name }],
                 });
                 console.log('Фильм успешно добавлен в избранное');
             }catch (error: unknown) {
@@ -160,6 +164,24 @@ export const searchFilms = createAsyncThunk(
             }
         }
     )
+    export const soloFilmCardFetch = createAsyncThunk(
+        "film/soloFilmCardFetch",
+        async(filmId: number , { dispatch, rejectWithValue }) => {
+            try{
+                const response:Iresponse = await axiosApiConfig.get('/v1.3/movie' , { params: { id: filmId } })
+                const film = response.data.docs
+                dispatch(viewFilmCard(film))
+            }catch (error: unknown) {
+                if (error instanceof Error) {
+                  console.log((error as Error).message);
+                  return rejectWithValue(error.message);
+                } else {
+                  console.log("Unknown error occurred");
+                  return rejectWithValue("Unknown error occurred");
+                }
+              }
+        }
+    )
 
 
 export const filmSlice = createSlice({
@@ -170,17 +192,7 @@ export const filmSlice = createSlice({
             state.films = [...state.films, ...action.payload]
         },
         viewFilmCard: (state, action) => {
-            if(state.renderfilmCard){
-                const newFilm = state.films.filter(
-                    (item) => item.id == action.payload.filmId                
-                  );
-                state.film = newFilm[0];
-            } else {
-                const newFilm = state.searchfilms.filter(
-                    (item) => item.id == action.payload.filmId                
-                  );
-                state.film = newFilm[0];
-            }
+            state.film = action.payload
         },
         setRenderFilmCard: (state,action) => {
             state.renderfilmCard = action.payload.renderValue
@@ -222,7 +234,18 @@ export const filmSlice = createSlice({
     .addCase(searchFilms.fulfilled, (state,action)=>{
         state.loadingFilms = false;
         state.searchfilms = action.payload
-    })  
+    })
+    .addCase(soloFilmCardFetch.pending, (state) =>{
+        state.loadingSoloFilm = true;
+        state.errorMes = null
+    })
+    .addCase(soloFilmCardFetch.fulfilled, (state) => {
+        state.loadingSoloFilm = false
+    })
+    .addCase(soloFilmCardFetch.rejected , (state,action) => {
+        state.loadingSoloFilm = false
+        state.errorMes = action.payload
+    })
 })
 
 export const { 

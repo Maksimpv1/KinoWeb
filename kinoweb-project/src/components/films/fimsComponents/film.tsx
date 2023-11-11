@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { Box, CircularProgress } from "@mui/material";
 
-import { addFilmsToFavorits, deleteFilmsFromFavorits, viewFilmCard } from "../../../redux/reducers/filmsReducer";
+import { addFilmsToFavorits, deleteFilmsFromFavorits, soloFilmCardFetch, viewFilmCard } from "../../../redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "../../../redux/store/store";
 import { SpaceLine } from "../../mainblock/mainBlockStyles";
 import { ThemeContext } from "../../providers/themeProvider";
@@ -19,19 +20,31 @@ export const Film = () => {
     const themes = useContext(ThemeContext);
 
     useEffect(()=>{
-        dispatch(viewFilmCard({ filmId:paramss.id }))
+        if(paramss.id){
+        const idFilms =  +paramss.id
+        dispatch(soloFilmCardFetch( idFilms ))
         window.scrollTo(0, 0);
+        }
     },[])
 
-    const filmData = useAppSelectorType((state) =>  state.films.film )
+    const filmData = useAppSelectorType((state) =>  state.films.film[0] )
     const loginState = useAppSelectorType((state) => state.auth.logState)
     const favFims = useAppSelectorType((state) => state.films.favoritsFilms.favorits)
+    const loading = useAppSelectorType((state) => state.films.loadingSoloFilm)
 
     const paramss = useParams();
 
     const [inFIlmslist, setInFIlmslist] = useState<boolean>(false)
 
     const { isAuth } = useAuth();
+
+    useEffect(()=>{
+        if(isAuth){
+            setInFIlmslist(favFims.some((item) => item.id === filmData.id)) 
+        } else {
+            setInFIlmslist(false)
+        }
+    },[])
 
     useEffect(()=>{
         if(isAuth){
@@ -51,7 +64,7 @@ export const Film = () => {
     
     return (
         <Container colorbg = {themes.BACKGROUND_THEME}>
-            <BanerContainer backimage={filmData.logo.url ? filmData.logo.url :imgBack} backimageSmall={true} >
+            <BanerContainer backimage={filmData.logo?.url ? filmData.logo.url :imgBack} backimageSmall={true} >
                 <BanerShadow>
                     <MainTitleblock>
                         <MainTitle>
@@ -61,25 +74,30 @@ export const Film = () => {
                 </BanerShadow>                
             </BanerContainer> 
             <SpaceLine></SpaceLine>
+            {loading ? <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center' }}>
+                <CircularProgress /></Box> :
                 <div style={{ padding:'20px' }}>
                     <FilmPageWrapper>
                         <FilmMainTitle>{filmData.name}</FilmMainTitle>
                         <FilmMain>
                             <FilmMainLeft>
-                                <FilmMainPoster src={filmData.poster.url}/>                  
+                                <FilmMainPoster src={filmData.poster?.url}/>                  
                             </FilmMainLeft>
                             <FilmMainRight>
                                 <FilmGenresList>
                                     <FilmGenresTitle>Genres: </FilmGenresTitle>
-                                    {filmData.genres.map((item) => (
+                                    {filmData.genres.map((item : { name: string }) => (
                                         <FilmGenresListProp key={item.name}> — {item.name}</FilmGenresListProp>
-                                    ))}
+                                    ))} 
                                 </FilmGenresList>
                                 <FilmGenresList>
                                     <FilmGenresTitle>Released: </FilmGenresTitle>
                                         <FilmGenresListProp> {filmData.year}</FilmGenresListProp>
                                 </FilmGenresList>
-                                <FilmAddFavorits onClick={ inFIlmslist ? deleteFavorits : addToFavorits}>
+                                <FilmAddFavorits 
+                                onClick={ inFIlmslist ? deleteFavorits : addToFavorits }
+                                enabled={loginState}
+                                disabled={!loginState}>
                                 { inFIlmslist ? "Delete from Favorits" : "Add to Favorits"}</FilmAddFavorits>
                             </FilmMainRight>
                         </FilmMain>
@@ -91,6 +109,7 @@ export const Film = () => {
                         </FilmGenresList>
                     </FilmPageWrapper>
                 </div>
+                }
             <SpaceLine></SpaceLine>   
         </Container>
     )

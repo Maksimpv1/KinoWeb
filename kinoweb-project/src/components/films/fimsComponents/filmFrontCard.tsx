@@ -15,6 +15,7 @@ export interface IFilmFront {
     filmTitle:string,
     altFilmName:string,
     id:number,
+    name?:string,
 }
 
 
@@ -61,7 +62,7 @@ export const FilmFront = (props:IFilmFront) => {
                     <PreviewButton>View film</PreviewButton>
                 </NavLink>
                 <PreviewIconWrap 
-                onClick={inFIlmslist ? deleteFavorits : addToFavorits} 
+                onClick={inFIlmslist ? deleteFavorits : addToFavorits}
                 enabled={loginState} 
                 disabled={!loginState} >
                     <img style={{ width:'25px' }} src={inFIlmslist ? deleteIcon : saveIcon }></img>
