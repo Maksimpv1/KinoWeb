@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { Box, CircularProgress } from "@mui/material";
 
 import { addFilmsToFavorits, deleteFilmsFromFavorits, soloFilmCardFetch, viewFilmCard } from "../../../redux/reducers/filmsReducer";
 import { AppDispatch, useAppSelectorType } from "../../../redux/store/store";
@@ -26,15 +27,24 @@ export const Film = () => {
         }
     },[])
 
-    const filmData = useAppSelectorType((state) =>  state.films.film )
+    const filmData = useAppSelectorType((state) =>  state.films.film[0] )
     const loginState = useAppSelectorType((state) => state.auth.logState)
     const favFims = useAppSelectorType((state) => state.films.favoritsFilms.favorits)
+    const loading = useAppSelectorType((state) => state.films.loadingSoloFilm)
 
     const paramss = useParams();
 
     const [inFIlmslist, setInFIlmslist] = useState<boolean>(false)
 
     const { isAuth } = useAuth();
+
+    useEffect(()=>{
+        if(isAuth){
+            setInFIlmslist(favFims.some((item) => item.id === filmData.id)) 
+        } else {
+            setInFIlmslist(false)
+        }
+    },[])
 
     useEffect(()=>{
         if(isAuth){
@@ -64,6 +74,8 @@ export const Film = () => {
                 </BanerShadow>                
             </BanerContainer> 
             <SpaceLine></SpaceLine>
+            {loading ? <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center' }}>
+                <CircularProgress /></Box> :
                 <div style={{ padding:'20px' }}>
                     <FilmPageWrapper>
                         <FilmMainTitle>{filmData.name}</FilmMainTitle>
@@ -74,9 +86,9 @@ export const Film = () => {
                             <FilmMainRight>
                                 <FilmGenresList>
                                     <FilmGenresTitle>Genres: </FilmGenresTitle>
-                                    {filmData.genres.map((item) => (
+                                    {filmData.genres.map((item : { name: string }) => (
                                         <FilmGenresListProp key={item.name}> — {item.name}</FilmGenresListProp>
-                                    ))}
+                                    ))} 
                                 </FilmGenresList>
                                 <FilmGenresList>
                                     <FilmGenresTitle>Released: </FilmGenresTitle>
@@ -97,6 +109,7 @@ export const Film = () => {
                         </FilmGenresList>
                     </FilmPageWrapper>
                 </div>
+                }
             <SpaceLine></SpaceLine>   
         </Container>
     )
