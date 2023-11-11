@@ -23,6 +23,9 @@ export const Film = () => {
         if(paramss.id){
         const idFilms =  +paramss.id
         dispatch(soloFilmCardFetch( idFilms ))
+        console.log(favFims)
+        console.log(filmData.id)
+        console.log( setInFIlmslist(favFims.some((item) => item.id === filmData.id)))
         window.scrollTo(0, 0);
         }
     },[])
@@ -38,21 +41,14 @@ export const Film = () => {
 
     const { isAuth } = useAuth();
 
-    useEffect(()=>{
-        if(isAuth){
-            setInFIlmslist(favFims.some((item) => item.id === filmData.id)) 
-        } else {
-            setInFIlmslist(false)
-        }
-    },[])
 
-    useEffect(()=>{
-        if(isAuth){
+     useEffect(()=>{
+         if(isAuth){
             setInFIlmslist(favFims.some((item) => item.id === filmData.id)) 
-        } else {
-            setInFIlmslist(false)
+         } else {
+             setInFIlmslist(false)
         }
-    },[favFims])
+     },[favFims])
 
     const addToFavorits = async () => {
          dispatch(addFilmsToFavorits(filmData))
@@ -60,6 +56,10 @@ export const Film = () => {
 
     const deleteFavorits = async () => {
         dispatch(deleteFilmsFromFavorits(filmData))
+    }
+
+    const handleClick = () => {
+        console.log(inFIlmslist)
     }
     
     return (
@@ -74,6 +74,7 @@ export const Film = () => {
                 </BanerShadow>                
             </BanerContainer> 
             <SpaceLine></SpaceLine>
+            <button onClick={handleClick} >Click</button>
             {loading ? <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center' }}>
                 <CircularProgress /></Box> :
                 <div style={{ padding:'20px' }}>
