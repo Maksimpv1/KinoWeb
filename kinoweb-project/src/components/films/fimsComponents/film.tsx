@@ -19,13 +19,17 @@ export const Film = () => {
 
     const themes = useContext(ThemeContext);
 
+    const paramss = useParams();
+
+    const idFilms =  paramss.id ? +paramss.id : null
+
+
     useEffect(()=>{
         if(paramss.id){
-        const idFilms =  +paramss.id
         dispatch(soloFilmCardFetch( idFilms ))
         console.log(favFims)
-        console.log(filmData.id)
-        console.log( setInFIlmslist(favFims.some((item) => item.id === filmData.id)))
+        console.log(idFilms)
+        console.log( setInFIlmslist(favFims.some((item) => item.id === idFilms)))
         window.scrollTo(0, 0);
         }
     },[])
@@ -35,16 +39,14 @@ export const Film = () => {
     const favFims = useAppSelectorType((state) => state.films.favoritsFilms.favorits)
     const loading = useAppSelectorType((state) => state.films.loadingSoloFilm)
 
-    const paramss = useParams();
-
     const [inFIlmslist, setInFIlmslist] = useState<boolean>(false)
 
     const { isAuth } = useAuth();
 
-
+    
      useEffect(()=>{
          if(isAuth){
-            setInFIlmslist(favFims.some((item) => item.id === filmData.id)) 
+            setInFIlmslist(favFims.some((item) => item.id === idFilms)) 
          } else {
              setInFIlmslist(false)
         }
@@ -56,10 +58,6 @@ export const Film = () => {
 
     const deleteFavorits = async () => {
         dispatch(deleteFilmsFromFavorits(filmData))
-    }
-
-    const handleClick = () => {
-        console.log(inFIlmslist)
     }
     
     return (
@@ -74,7 +72,6 @@ export const Film = () => {
                 </BanerShadow>                
             </BanerContainer> 
             <SpaceLine></SpaceLine>
-            <button onClick={handleClick} >Click</button>
             {loading ? <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center' }}>
                 <CircularProgress /></Box> :
                 <div style={{ padding:'20px' }}>

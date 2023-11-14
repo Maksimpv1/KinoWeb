@@ -166,7 +166,7 @@ export const searchFilms = createAsyncThunk(
     )
     export const soloFilmCardFetch = createAsyncThunk(
         "film/soloFilmCardFetch",
-        async(filmId: number , { dispatch, rejectWithValue }) => {
+        async(filmId: number | null , { dispatch, rejectWithValue }) => {
             try{
                 const response:Iresponse = await axiosApiConfig.get('/v1.3/movie' , { params: { id: filmId } })
                 const film = response.data.docs
