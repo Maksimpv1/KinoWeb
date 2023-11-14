@@ -11,6 +11,7 @@ interface IImgData {
 interface IInfoData {
     id:number,
     name:string,
+    link:string,
 }
 
 export const ImgData:Array<IImgData> = [
@@ -40,13 +41,16 @@ export const InfoData:Array<IInfoData> = [
     {
         id:1,
         name: "Main Page",
+        link:"/",
     },
     {
         id:2,
         name:"News",
+        link:"/News",
     },
     {
         id:3,
         name:"Search",
+        link:"/Search",
     },
 ]

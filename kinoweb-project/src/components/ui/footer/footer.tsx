@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { NavLink } from "react-router-dom";
 
 import { ThemeContext } from "../../providers/themeProvider";
 
@@ -13,7 +14,9 @@ export const Footer = () => {
       <FooterWrapper>
         <FooterDopInfoList>
             {InfoData.map((item)=>(
-                <FooterDopInfoValue key={item.id}  colortext={themes.TEXT_THEME}>{item.name}</FooterDopInfoValue> 
+              <NavLink to={item.link}  key={item.id} >
+                <FooterDopInfoValue colortext={themes.TEXT_THEME}>{item.name}</FooterDopInfoValue>
+              </NavLink> 
             ))}                    
         </FooterDopInfoList>
         <FooterSocial>

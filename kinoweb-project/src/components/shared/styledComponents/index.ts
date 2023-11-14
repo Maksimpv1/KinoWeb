@@ -13,7 +13,8 @@ export const Container = styled.div<ThemeProps>`
     background-size: cover;
     width:100%;
     margin: 0;
-    padding: 0px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 `;
 
 export const Wrapper = styled.div`
